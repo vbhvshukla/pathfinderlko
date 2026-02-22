@@ -15,6 +15,7 @@ export default function AdminMagazines() {
   const [loading, setLoading] = useState(false)
   const [uploading, setUploading] = useState(false)
   const [openingId, setOpeningId] = useState(null)
+  const [deletingId, setDeletingId] = useState(null)
 
   useEffect(() => { loadList() }, [])
 
@@ -98,6 +99,24 @@ export default function AdminMagazines() {
     }
   }
 
+  async function handleDelete(m) {
+    const id = m._id || m.id
+    if (!id) return
+    if (!window.confirm(`Delete magazine "${m.title}"? This action cannot be undone.`)) return
+    try {
+      setDeletingId(id)
+      setStatus(null)
+      await apiFetch(`/magazines/${id}`, { method: 'DELETE' })
+      setStatus({ type: 'success', message: 'Magazine deleted' })
+      await loadList()
+    } catch (err) {
+      console.error('Failed to delete magazine', err)
+      setStatus({ type: 'error', message: err?.message || 'Delete failed' })
+    } finally {
+      setDeletingId(null)
+    }
+  }
+
   return (
     <div className="text-left">
       <h1 className="text-2xl font-bold mb-4">Magazines</h1>
@@ -160,6 +179,9 @@ export default function AdminMagazines() {
                         Open PDF
                       </button>
                     )}
+                    <button type="button" onClick={() => handleDelete(m)} disabled={deletingId === (m._id || m.id)} className="text-sm text-red-600 underline">
+                      {deletingId === (m._id || m.id) ? <span className="flex items-center gap-2"><Loader size={12} /> Deleting</span> : 'Delete'}
+                    </button>
                 </div>
               </div>
             </div>

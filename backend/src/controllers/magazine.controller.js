@@ -194,4 +194,47 @@ async function downloadMagazine(req, res) {
   }
 }
 
-module.exports = { createMagazine, listMagazines , downloadMagazine }
+async function deleteMagazine(req, res) {
+  try {
+    const id = req.params.id
+    const mag = await Magazine.findById(id)
+    if (!mag) return res.status(404).json({ message: 'Not found' })
+
+    const cloudinary = configureCloudinary()
+
+    const tryDeleteCloudinary = async (url, resourceType) => {
+      if (!url) return
+      try {
+        const parsed = new URL(url)
+        if (parsed.hostname && parsed.hostname.includes('res.cloudinary.com')) {
+          const parts = parsed.pathname.split('/').filter(Boolean)
+          const uploadIdx = parts.indexOf('upload')
+          if (uploadIdx !== -1) {
+            let after = parts.slice(uploadIdx + 1)
+            if (after.length && /^v\d+$/.test(after[0])) after = after.slice(1)
+            const publicIdWithExt = after.join('/')
+            const publicId = publicIdWithExt.replace(/\.[^/.]+$/, '')
+            if (publicId) {
+              await cloudinary.uploader.destroy(publicId, { resource_type: resourceType || 'auto' })
+            }
+          }
+        }
+      } catch (e) {
+        console.warn('Failed to delete cloudinary resource', url, e && (e.message || e))
+      }
+    }
+
+    // attempt to remove remote assets (pdf/raw and cover image) but do not fail if deletion fails
+    await tryDeleteCloudinary(mag.downloadUrl, 'raw')
+    await tryDeleteCloudinary(mag.imageUrl, 'image')
+
+    await Magazine.findByIdAndDelete(id)
+    return res.json({ message: 'Magazine deleted' })
+  } catch (err) {
+    console.error(err)
+    return res.status(500).json({ message: err && err.message ? err.message : 'Server error' })
+  }
+}
+
+module.exports = { createMagazine, listMagazines , downloadMagazine ,deleteMagazine}
+
