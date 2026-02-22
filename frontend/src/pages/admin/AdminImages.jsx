@@ -79,16 +79,16 @@ export default function AdminImages() {
             <input type="file" accept="image/*" onChange={(e) => setFile(e.target.files[0])} />
           </div>
 
-          <div className="flex items-center gap-4">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
             <label className="text-sm">Category</label>
             <select value={category} onChange={e => setCategory(e.target.value)} className="p-1 border rounded">
               <option value="services">Service Page</option>
               <option value="gallery">Gallery</option>
             </select>
-            <label className="flex items-center gap-2 ml-4">
+            <label className="flex items-center gap-2">
               <input type="checkbox" checked={featured} onChange={e => setFeatured(e.target.checked)} /> Featured
             </label>
-            <div className="ml-auto">
+            <div className="sm:ml-auto">
               <Button type="button" onClick={loadImages} variant="ghost" disabled={loading}> 
                 {loading ? <span className="flex items-center gap-2"><Loader size={14} /> Loading</span> : 'Fetch Images'}
               </Button>

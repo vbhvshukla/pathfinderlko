@@ -101,9 +101,9 @@ export default function AdminContacts() {
           </table>
         </div>
       )}
-      <div className="mt-4 flex items-center justify-between">
+      <div className="mt-4 flex flex-col sm:flex-row items-center justify-between gap-3">
         <div className="text-sm text-muted">{loading ? <Skeleton className="h-4 w-48" /> : `Showing page ${page} of ${pages} — ${total} messages`}</div>
-        <div className="flex items-center gap-2">
+        <div className="flex flex-wrap items-center gap-2">
           <button className="px-3 py-1 border rounded disabled:opacity-50" onClick={() => setPage(p => Math.max(1, p - 1))} disabled={page <= 1}>Prev</button>
           {Array.from({ length: pages }).slice(0, 10).map((_, i) => {
             const p = i + 1

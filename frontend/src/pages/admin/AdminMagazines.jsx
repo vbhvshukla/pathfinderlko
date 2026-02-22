@@ -112,16 +112,17 @@ export default function AdminMagazines() {
           <form onSubmit={handleUpload} className="space-y-3 mb-6">
             <input value={title} onChange={(e) => setTitle(e.target.value)} placeholder="Magazine title" className="w-full p-2 border rounded" />
             <div className="flex flex-col gap-3">
-              <div className="flex gap-2 items-center">
-                <label className="text-sm">PDF file</label>
-                <input required type="file" accept="application/pdf" onChange={(e) => setFile(e.target.files[0])} className="border rounded px-2 py-1" />
-                <span className="text-sm text-muted">Required</span>
-              </div>
-              <div className="flex gap-2 items-center">
-                <label className="text-sm">Cover image</label>
-                <input required type="file" accept="image/*" onChange={(e) => setCoverFile(e.target.files[0])} className="border rounded px-2 py-1" />
-                <span className="text-sm text-muted">Required</span>
-              </div>
+                <div className="flex flex-col sm:flex-row gap-2 items-start sm:items-center">
+                  <div className="flex items-start sm:items-center gap-2 w-full sm:w-auto">
+                    <label className="text-sm">PDF file</label>
+                    <input required type="file" accept="application/pdf" onChange={(e) => setFile(e.target.files[0])} className="border rounded px-2 py-1" />
+                  </div>
+                  <div className="flex items-start sm:items-center gap-2 w-full sm:w-auto">
+                    <label className="text-sm">Cover image</label>
+                    <input required type="file" accept="image/*" onChange={(e) => setCoverFile(e.target.files[0])} className="border rounded px-2 py-1" />
+                  </div>
+                  <div className="text-sm text-muted self-center">Both required</div>
+                </div>
             </div>
         
 

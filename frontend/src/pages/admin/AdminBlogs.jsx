@@ -28,7 +28,7 @@ export default function AdminBlogs() {
 
   return (
     <div>
-      <div className="flex items-center justify-between mb-6">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-6 gap-3">
         <h1 className="text-2xl font-bold">Blogs</h1>
         <AdminBlogForm onCreated={(post) => setPosts(p => [post, ...p])} />
       </div>

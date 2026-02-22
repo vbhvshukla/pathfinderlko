@@ -21,6 +21,7 @@ export default function Navbar() {
   }, [reduxUser])
 
   async function handleLogout() {
+    setOpen(false)
     await dispatch(logoutAction())
     navigate('/')
   }
@@ -94,7 +95,7 @@ export default function Navbar() {
           <div className="px-4 py-3 space-y-2">
             {isAdmin ? (
               <>
-                <Link to="/admin" className={`block flex items-center gap-2 ${isActive('/admin') ? 'text-primary font-semibold' : 'text-foreground'}`}><LayoutDashboard className="w-4 h-4"/>Admin Dashboard</Link>
+                <Link to="/admin" onClick={() => setOpen(false)} className={`block flex items-center gap-2 ${isActive('/admin') ? 'text-primary font-semibold' : 'text-foreground'}`}><LayoutDashboard className="w-4 h-4"/>Admin Dashboard</Link>
                 {user ? (
                   <button onClick={handleLogout} className="block text-left w-full flex items-center gap-2"><LogIn className="w-4 h-4"/>Sign out</button>
                 ) : null}
@@ -102,17 +103,17 @@ export default function Navbar() {
             ) : (
               <>
                 {pathname !== '/' && (
-                  <Link to="/" className={`block flex items-center gap-2 ${isActive('/') ? 'text-primary font-semibold' : 'text-foreground'}`}><Home className="w-4 h-4"/>Home</Link>
+                  <Link to="/" onClick={() => setOpen(false)} className={`block flex items-center gap-2 ${isActive('/') ? 'text-primary font-semibold' : 'text-foreground'}`}><Home className="w-4 h-4"/>Home</Link>
                 )}
-                <Link to="/about" className={`block flex items-center gap-2 ${isActive('/about') ? 'text-primary font-semibold' : 'text-foreground'}`}><Info className="w-4 h-4"/>About</Link>
-                <Link to="/services" className={`block flex items-center gap-2 ${isActive('/services') ? 'text-primary font-semibold' : 'text-foreground'}`}><Briefcase className="w-4 h-4"/>Services</Link>
-                <Link to="/blog" className={`block flex items-center gap-2 ${isActive('/blog') ? 'text-primary font-semibold' : 'text-foreground'}`}><FileText className="w-4 h-4"/>Blog</Link>
-                <Link to="/contact" className={`block flex items-center gap-2 ${isActive('/contact') ? 'text-primary font-semibold' : 'text-foreground'}`}><Mail className="w-4 h-4"/>Contact</Link>
-                <Link to="/appointments" className={`block flex items-center gap-2 ${isActive('/appointments') ? 'text-primary font-semibold' : 'text-foreground'}`}><Calendar className="w-4 h-4"/>Book Now</Link>
+                <Link to="/about" onClick={() => setOpen(false)} className={`block flex items-center gap-2 ${isActive('/about') ? 'text-primary font-semibold' : 'text-foreground'}`}><Info className="w-4 h-4"/>About</Link>
+                <Link to="/services" onClick={() => setOpen(false)} className={`block flex items-center gap-2 ${isActive('/services') ? 'text-primary font-semibold' : 'text-foreground'}`}><Briefcase className="w-4 h-4"/>Services</Link>
+                <Link to="/blog" onClick={() => setOpen(false)} className={`block flex items-center gap-2 ${isActive('/blog') ? 'text-primary font-semibold' : 'text-foreground'}`}><FileText className="w-4 h-4"/>Blog</Link>
+                <Link to="/contact" onClick={() => setOpen(false)} className={`block flex items-center gap-2 ${isActive('/contact') ? 'text-primary font-semibold' : 'text-foreground'}`}><Mail className="w-4 h-4"/>Contact</Link>
+                <Link to="/appointments" onClick={() => setOpen(false)} className={`block flex items-center gap-2 ${isActive('/appointments') ? 'text-primary font-semibold' : 'text-foreground'}`}><Calendar className="w-4 h-4"/>Book Now</Link>
                 {user ? (
                   <button onClick={handleLogout} className="block text-left w-full flex items-center gap-2"><LogIn className="w-4 h-4"/>Sign out</button>
                 ) : (
-                  <Link to="/auth" className="block flex items-center gap-2"><LogIn className="w-4 h-4"/>Sign in</Link>
+                  <Link to="/auth" onClick={() => setOpen(false)} className="block flex items-center gap-2"><LogIn className="w-4 h-4"/>Sign in</Link>
                 )}
               </>
             )}

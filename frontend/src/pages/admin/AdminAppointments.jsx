@@ -39,15 +39,15 @@ export default function AdminAppointments() {
             {appointments.length === 0 && <div className="text-muted">No appointments yet</div>}
             {appointments.map((a) => (
               <div key={a._id} className="p-4 border rounded">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <div className="font-semibold flex items-center gap-2"><User className="w-5 h-5"/>{a.name} — {a.serviceName || a.serviceId || a.service}</div>
-                    <div className="text-sm text-muted"><span className="mr-2">{a.email}</span><Phone className="inline-block w-4 h-4 mr-1"/>{a.phone}</div>
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between">
+                    <div className="mb-3 sm:mb-0">
+                      <div className="font-semibold flex items-center gap-2"><User className="w-5 h-5"/>{a.name} — {a.serviceName || a.serviceId || a.service}</div>
+                      <div className="text-sm text-muted"><span className="mr-2">{a.email}</span><Phone className="inline-block w-4 h-4 mr-1"/>{a.phone}</div>
+                    </div>
+                    <div className="text-sm">{a.date ? new Date(a.date).toLocaleString() : 'No date'}</div>
                   </div>
-                  <div className="text-sm">{a.date ? new Date(a.date).toLocaleString() : 'No date'}</div>
+                  {a.address && <div className="mt-2 text-sm">{a.address}</div>}
                 </div>
-                {a.address && <div className="mt-2 text-sm">{a.address}</div>}
-              </div>
             ))}
           </>
         )}
