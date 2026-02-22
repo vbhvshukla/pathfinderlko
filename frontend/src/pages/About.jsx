@@ -101,11 +101,11 @@ export default function About() {
 								},
 								{
 									name: 'Ms. Urvashi',
-									role: 'Program Manager at Pathfinder | SDE, Thales',
+									role: 'Program Manager at Pathfinder | SDE',
 									img: urvashi,
 								},{
 									name: 'Mr. Vaibhav Shukla',
-									role: 'IT Support Staff | SDE',
+									role: 'IT Team | SDE',
 									img: vaibhav,
 								}
 								
