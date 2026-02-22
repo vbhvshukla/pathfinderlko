@@ -19,7 +19,7 @@ const { verifyToken, requireRole } = require('../middlewares/auth.middleware');
 router.post('/', verifyToken, requireRole('admin'), upload.single('file'), uploadImage);
 
 // List uploads by category (admin)
-router.get('/', verifyToken, requireRole('admin'), listUploads);
+router.get('/', listUploads);
 
 // Delete upload by id (admin)
 router.delete('/:id', verifyToken, requireRole('admin'), deleteUpload);
