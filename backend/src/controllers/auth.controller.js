@@ -16,7 +16,7 @@ async function register(req, res) {
 		res.cookie('token', token, {
 			httpOnly: true,
 			secure: process.env.NODE_ENV === 'production',
-			sameSite: 'lax',
+			sameSite: 'none',
 			maxAge: 7 * 24 * 60 * 60 * 1000,
 		})
 		return res.status(201).json({ user: { id: user._id, name: user.name, email: user.email, role: user.role } });
@@ -39,7 +39,7 @@ async function login(req, res) {
 		res.cookie('token', token, {
 			httpOnly: true,
 			secure: process.env.NODE_ENV === 'production',
-			sameSite: 'lax',
+			sameSite: 'none',
 			maxAge: 7 * 24 * 60 * 60 * 1000,
 		})
 		return res.json({ user: { id: user._id, name: user.name, email: user.email, role: user.role } });
@@ -65,7 +65,7 @@ async function logout(req, res) {
 		res.clearCookie('token', {
 			httpOnly: true,
 			secure: process.env.NODE_ENV === 'production',
-			sameSite: 'lax',
+			sameSite: 'none',
 		});
 		return res.json({ message: 'Logged out' });
 	} catch (err) {

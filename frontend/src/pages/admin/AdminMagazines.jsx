@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { Button } from '@/components/ui/button'
 import { apiFetch } from '@/lib/api'
 import axios from 'axios'
+import Loader from '@/components/ui/loader'
 
 export default function AdminMagazines() {
   const [file, setFile] = useState(null)
@@ -12,6 +13,8 @@ export default function AdminMagazines() {
   const [status, setStatus] = useState(null)
   const [mags, setMags] = useState([])
   const [loading, setLoading] = useState(false)
+  const [uploading, setUploading] = useState(false)
+  const [openingId, setOpeningId] = useState(null)
 
   useEffect(() => { loadList() }, [])
 
@@ -35,6 +38,7 @@ export default function AdminMagazines() {
     }
 
     try {
+      setUploading(true)
       let res
       if (!file) {
         setStatus({ type: 'error', message: 'Please upload a PDF file' })
@@ -62,12 +66,15 @@ export default function AdminMagazines() {
     } catch (err) {
       console.error(err)
       setStatus({ type: 'error', message: err?.message || 'Upload failed' })
+    } finally {
+      setUploading(false)
     }
   }
 
   async function openPdf(m) {
     try {
       setStatus(null)
+      setOpeningId(m._id || m.id)
       // Always use backend proxy to avoid CORS when the download URL is on Cloudinary
       const url = `/api/magazines/${m._id}/download`
       const res = await axios.get(url, { responseType: 'blob', withCredentials: true })
@@ -83,9 +90,11 @@ export default function AdminMagazines() {
       const blobUrl = URL.createObjectURL(blob)
       window.open(blobUrl, '_blank', 'noopener,noreferrer')
       setTimeout(() => URL.revokeObjectURL(blobUrl), 60000)
+      setOpeningId(null)
     } catch (err) {
       console.error('Failed to fetch PDF', err)
       setStatus({ type: 'error', message: 'Failed to open PDF' })
+      setOpeningId(null)
     }
   }
 
@@ -122,7 +131,7 @@ export default function AdminMagazines() {
         </div>
 
         <div>
-          <Button type="submit">Create Magazine</Button>
+          <Button type="submit" disabled={uploading}>{uploading ? <span className="flex items-center gap-2"><Loader size={14} /> Creating</span> : 'Create Magazine'}</Button>
         </div>
       </form>
 
@@ -131,7 +140,7 @@ export default function AdminMagazines() {
 
       <h2 className="text-lg font-semibold mb-3">Existing Magazines</h2>
       {loading ? (
-        <div>Loading…</div>
+        <div className="flex items-center gap-2"><Loader /> Loading…</div>
       ) : mags.length === 0 ? (
         <div className="text-muted">No magazines yet.</div>
       ) : (

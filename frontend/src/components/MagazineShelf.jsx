@@ -9,6 +9,8 @@ import {
   CardFooter,
 } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
+import Loader from '@/components/ui/loader'
+import { Carousel, CarouselContent, CarouselItem, CarouselPrevious, CarouselNext } from '@/components/ui/carousel'
 
 export default function MagazineShelf({ magazines = [] }) {
   const [open, setOpen] = useState(false)
@@ -16,14 +18,17 @@ export default function MagazineShelf({ magazines = [] }) {
   const [pdfSrc, setPdfSrc] = useState(null)
   const [pdfLoaded, setPdfLoaded] = useState(false)
   const iframeRef = useRef(null)
+  const [reading, setReading] = useState(false)
+  const [downloadingId, setDownloadingId] = useState(null)
 
   async function openReader(mag) {
     setCurrent(mag)
     console.log('Opening reader for magazine', mag)
     setOpen(true)
     try {
+      setReading(true)
+      setPdfLoaded(false)
       if (!mag.pdfUrl) throw new Error('No pdfUrl available')
-      
       const direct = mag.pdfUrl
       const res = await axios.get(direct, { responseType: 'blob', withCredentials: false })
       const contentType = res.headers['content-type'] || 'application/pdf'
@@ -34,12 +39,15 @@ export default function MagazineShelf({ magazines = [] }) {
     } catch (err) {
       console.error('Failed to load PDF for reader via pdfUrl', err)
       setPdfSrc(null)
+    } finally {
+      setReading(false)
     }
   }
 
   async function downloadPdf(mag) {
     try {
       if (!mag.pdfUrl) throw new Error('No pdfUrl available')
+      setDownloadingId(mag._id || mag.id)
       const direct = mag.pdfUrl
       const res = await axios.get(direct, { responseType: 'blob', withCredentials: false })
       const contentType = res.headers['content-type'] || 'application/pdf'
@@ -57,6 +65,8 @@ export default function MagazineShelf({ magazines = [] }) {
       setTimeout(() => URL.revokeObjectURL(url), 60000)
     } catch (err) {
       console.error('Download failed via pdfUrl', err)
+    } finally {
+      setDownloadingId(null)
     }
   }
 
@@ -73,35 +83,45 @@ export default function MagazineShelf({ magazines = [] }) {
     <section className="max-w-7xl mx-auto px-4 py-12">
       <h2 className="text-2xl font-bold mb-6">Latest Magazines</h2>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-        {magazines.map((m, idx) => (
-          <Card key={idx} className="overflow-hidden">
-            <CardHeader>
-              <CardTitle className="text-lg">{m.title}</CardTitle>
-              <CardDescription className="text-sm">{m.date}</CardDescription>
-            </CardHeader>
+      <div>
+        <Carousel>
+          <CarouselPrevious />
+          <CarouselContent className="gap-6">
+            {magazines.length === 0 ? (
+              <div className="text-muted">No magazines yet.</div>
+            ) : (
+              magazines.map((m, idx) => (
+                <CarouselItem key={m._id || m.id || idx} className="basis-full sm:basis-1/2 lg:basis-1/3">
+                  <Card className="overflow-hidden">
+                    <CardHeader>
+                      <CardTitle className="text-lg">{m.title}</CardTitle>
+                      <CardDescription className="text-sm">{m.date}</CardDescription>
+                    </CardHeader>
 
-            <CardContent className="p-0">
-              <div className="h-48 bg-muted overflow-hidden">
-                <img
-                  src={m.cover}
-                  alt={m.title}
-                  className="w-full h-full object-cover"
-                />
-              </div>
-            </CardContent>
+                    <CardContent className="p-0">
+                      <div className="h-48 bg-muted overflow-hidden">
+                        <img src={m.cover} alt={m.title} className="w-full h-full object-cover" />
+                      </div>
+                    </CardContent>
 
-            <CardFooter className="flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <Button variant="ghost" size="sm" onClick={() => openReader(m)}>
-                  Read
-                </Button>
-                <Button variant="outline" size="sm" onClick={() => downloadPdf(m)} className="no-underline">Download</Button>
-              </div>
-              <div className="text-sm text-muted">{m.pages ? `${m.pages} pages` : ''}</div>
-            </CardFooter>
-          </Card>
-        ))}
+                    <CardFooter className="flex items-center justify-between">
+                      <div className="flex items-center gap-2">
+                        <Button variant="ghost" size="sm" onClick={() => openReader(m)} disabled={reading && current && (current._id || current.id) === (m._id || m.id)}>
+                          {reading && current && (current._id || current.id) === (m._id || m.id) ? <span className="flex items-center gap-2"><Loader size={12} /> Reading</span> : 'Read'}
+                        </Button>
+                        <Button variant="outline" size="sm" onClick={() => downloadPdf(m)} className="no-underline" disabled={downloadingId === (m._id || m.id)}>
+                          {downloadingId === (m._id || m.id) ? <span className="flex items-center gap-2"><Loader size={12} /> Downloading</span> : 'Download'}
+                        </Button>
+                      </div>
+                      <div className="text-sm text-muted">{m.pages ? `${m.pages} pages` : ''}</div>
+                    </CardFooter>
+                  </Card>
+                </CarouselItem>
+              ))
+            )}
+          </CarouselContent>
+          <CarouselNext />
+        </Carousel>
       </div>
 
       {open && current && (
@@ -134,7 +154,7 @@ export default function MagazineShelf({ magazines = [] }) {
                   </div>
                 </div>
               ) : (
-                <div className="w-full h-full flex items-center justify-center">Loading…</div>
+                <div className="w-full h-full flex items-center justify-center"><Loader /></div>
               )}
               {!pdfLoaded && pdfSrc && (
                 <div className="absolute left-1/2 transform -translate-x-1/2 bottom-8 bg-yellow-50 text-yellow-800 px-3 py-1 rounded">If the PDF doesn't render, click "Open in new tab".</div>

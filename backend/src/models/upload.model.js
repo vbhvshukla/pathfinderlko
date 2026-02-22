@@ -6,7 +6,7 @@ const UploadSchema = new mongoose.Schema({
   mime: { type: String },
   size: { type: Number },
   type: { type: String, enum: ['image', 'pdf', 'other'], default: 'image' },
-  category: { type: String }, // gallery,services etc.
+  category: { type: String , enum:['services','gallery']}, // gallery,services etc.
   relatedId: { type: String },
   title: { type: String },
   alt: { type: String },

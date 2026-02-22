@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Separator } from "@/components/ui/separator";
 import {
   Accordion,
@@ -18,8 +18,31 @@ import anmol from "../assets/anmol.png";
 import ekansh from "../assets/ekansh.png";
 import gargi from "../assets/gargi.png";
 import sandhya from "../assets/sandhya.png";
+import client from '@/lib/api'
+import Loader from '@/components/ui/loader'
 
 export default function Services() {
+    const [serviceImages, setServiceImages] = useState([])
+    const [loadingServices, setLoadingServices] = useState(false)
+
+    useEffect(() => {
+        let mounted = true
+        async function load() {
+            setLoadingServices(true)
+            try {
+                const res = await client.get(`/api/uploads?category=${encodeURIComponent('services')}`)
+                const uploads = (res && res.data && res.data.uploads) || []
+                const urls = uploads.map(u => u.url).filter(Boolean)
+                if (mounted) setServiceImages(urls)
+            } catch (err) {
+                console.error('Failed to load service images', err)
+            } finally {
+                setLoadingServices(false)
+            }
+        }
+        load()
+        return () => { mounted = false }
+    }, [])
   return (
     <main className="container mx-auto px-6 py-12 text-left">
             <div className="md:flex md:items-start md:gap-8">
@@ -149,15 +172,19 @@ export default function Services() {
 
                 <div className="md:w-72 md:ml-8">
                     <Carousel orientation="vertical" plugins={[Autoplay({loop:true})]}>
-                        <CarouselContent className="items-stretch h-screen">
-                            {[sandhya, drpkd, anmol, ekansh, gargi].map((img, i) => (
-                                <CarouselItem key={i} className="basis-auto">
-                                    <div className="p-2">
-                                        <img src={img} alt={`team-${i}`} className="w-full h-36 object-cover rounded-md shadow" />
-                                    </div>
-                                </CarouselItem>
-                            ))}
-                        </CarouselContent>
+                                <CarouselContent className="items-stretch h-screen">
+                                    {loadingServices ? (
+                                        <div className="p-4 flex items-center justify-center w-full"><Loader /></div>
+                                    ) : (
+                                        (serviceImages.length ? serviceImages : [sandhya, drpkd, anmol, ekansh, gargi]).map((img, i) => (
+                                            <CarouselItem key={i} className="basis-auto">
+                                                <div className="p-2">
+                                                    <img src={img} alt={`team-${i}`} className="w-full h-36 object-cover rounded-md shadow" />
+                                                </div>
+                                            </CarouselItem>
+                                        ))
+                                    )}
+                                </CarouselContent>
                     </Carousel>
                 </div>
             </div>

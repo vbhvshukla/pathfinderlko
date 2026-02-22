@@ -19,6 +19,7 @@ import AdminImages from './pages/admin/AdminImages'
 import AdminMagazines from './pages/admin/AdminMagazines'
 import AdminContacts from './pages/admin/AdminContacts'
 import './App.css'
+import { Toaster } from './components/ui/sonner'
 
 function App() {
   return (
@@ -50,6 +51,7 @@ function App() {
         </main>
       </AuthLoader>
       <Footer />
+      <Toaster />
     </div>
   )
 }

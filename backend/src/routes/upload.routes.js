@@ -12,11 +12,17 @@ const upload = multer({
 	},
 });
 
-const { uploadImage } = require('../controllers/upload.controller');
+const { uploadImage, listUploads, deleteUpload } = require('../controllers/upload.controller');
 const { verifyToken, requireRole } = require('../middlewares/auth.middleware');
 
 // Admin-only upload endpoint (file field: file)
 router.post('/', verifyToken, requireRole('admin'), upload.single('file'), uploadImage);
+
+// List uploads by category (admin)
+router.get('/', verifyToken, requireRole('admin'), listUploads);
+
+// Delete upload by id (admin)
+router.delete('/:id', verifyToken, requireRole('admin'), deleteUpload);
 //router.post('/', upload.single('file'), uploadImage);
 
 

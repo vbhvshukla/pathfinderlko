@@ -6,10 +6,8 @@ async function uploadImage(req, res) {
 	try {
 		const cloudinary = configureCloudinary();
 		if (!req.file) return res.status(400).json({ message: 'No file uploaded' });
-		// multer should provide req.file.path and req.file.mimetype/size
 		const filePath = req.file.path;
 		const allowedOpts = { folder: process.env.CLOUDINARY_FOLDER || 'uploads' };
-		// allow PDFs as well when category indicates magazine_pdf
 		const result = await cloudinary.uploader.upload(filePath, allowedOpts);
 
 		// remove local temp file
@@ -43,4 +41,42 @@ async function uploadImage(req, res) {
 	}
 }
 
-module.exports = { uploadImage };
+async function listUploads(req, res) {
+	try {
+		const { category } = req.query
+		const q = {}
+		if (category) q.category = category
+		const uploads = await Upload.find(q).sort({ createdAt: -1 })
+		return res.json({ uploads })
+	} catch (err) {
+		console.error(err)
+		return res.status(500).json({ message: 'Failed to list uploads' })
+	}
+}
+
+async function deleteUpload(req, res) {
+	try {
+		const id = req.params.id
+		const doc = await Upload.findById(id)
+		if (!doc) return res.status(404).json({ message: 'Not found' })
+
+		const cloudinary = configureCloudinary()
+		// attempt to remove from cloudinary when we have a publicId
+		if (doc.publicId) {
+			try {
+				const resourceType = doc.type === 'pdf' ? 'raw' : 'image'
+				await cloudinary.uploader.destroy(doc.publicId, { resource_type: resourceType })
+			} catch (e) {
+				console.warn('Failed to remove remote asset', doc.publicId, e.message || e)
+			}
+		}
+
+		await Upload.findByIdAndDelete(id)
+		return res.json({ message: 'Deleted' })
+	} catch (err) {
+		console.error(err)
+		return res.status(500).json({ message: 'Failed to delete upload' })
+	}
+}
+
+module.exports = { uploadImage , listUploads, deleteUpload };
