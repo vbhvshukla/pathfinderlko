@@ -14,9 +14,10 @@ function setupCsrf(req, res, next) {
 	}
 
 	// Set cookie (non-HttpOnly so client Axios can read it)
+	const isSecure = req.secure || req.headers['x-forwarded-proto'] === 'https';
 	res.cookie('csrfToken', csrfToken, {
 		httpOnly: false,
-		secure: process.env.NODE_ENV === 'production',
+		secure: isSecure,
 		sameSite: 'Lax',
 		path: '/',
 	});

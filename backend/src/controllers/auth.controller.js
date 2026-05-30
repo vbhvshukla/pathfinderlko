@@ -13,10 +13,11 @@ async function register(req, res) {
 		if (!process.env.JWT_SECRET) return res.status(500).json({ message: 'JWT_SECRET not configured' });
 		const token = jwt.sign({ id: user._id, email: user.email, role: user.role, name: user.name }, process.env.JWT_SECRET, { expiresIn: '7d' });
 		// set httpOnly cookie
+		const isSecure = req.secure || req.headers['x-forwarded-proto'] === 'https';
 		res.cookie('token', token, {
 			httpOnly: true,
-			secure: true,
-			sameSite: 'none',
+			secure: isSecure,
+			sameSite: isSecure ? 'none' : 'Lax',
 			maxAge: 7 * 24 * 60 * 60 * 1000,
 		})
 		return res.status(201).json({ user: { id: user._id, name: user.name, email: user.email, role: user.role } });
@@ -36,10 +37,11 @@ async function login(req, res) {
 		if (!ok) return res.status(401).json({ message: 'Invalid credentials' });
 		if (!process.env.JWT_SECRET) return res.status(500).json({ message: 'JWT_SECRET not configured' });
 		const token = jwt.sign({ id: user._id, email: user.email, role: user.role, name: user.name }, process.env.JWT_SECRET, { expiresIn: '7d' });
+		const isSecure = req.secure || req.headers['x-forwarded-proto'] === 'https';
 		res.cookie('token', token, {
 			httpOnly: true,
-			secure: true,
-			sameSite: 'none',
+			secure: isSecure,
+			sameSite: isSecure ? 'none' : 'Lax',
 			maxAge: 7 * 24 * 60 * 60 * 1000,
 		})
 		return res.json({ user: { id: user._id, name: user.name, email: user.email, role: user.role } });
@@ -62,10 +64,11 @@ async function me(req, res) {
 
 async function logout(req, res) {
 	try {
+		const isSecure = req.secure || req.headers['x-forwarded-proto'] === 'https';
 		res.clearCookie('token', {
 			httpOnly: true,
-			secure: true,
-			sameSite: 'none',
+			secure: isSecure,
+			sameSite: isSecure ? 'none' : 'Lax',
 		});
 		return res.json({ message: 'Logged out' });
 	} catch (err) {
