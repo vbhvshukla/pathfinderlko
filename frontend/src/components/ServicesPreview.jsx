@@ -1,5 +1,6 @@
 import React from 'react'
 import { Button } from '@/components/ui/button'
+import { useTranslation } from 'react-i18next'
 
 const icons = {
   'Psychological Counselling': (
@@ -62,23 +63,34 @@ const services = [
 ]
 
 export default function ServicesPreview() {
+  const { t } = useTranslation()
   return (
-    <section className="py-8 bg-background">
-      <div className="max-w-7xl mx-auto px-4 grid gap-6 md:grid-cols-3">
-        {services.map((s) => (
-          <div key={s.title} className="p-6 bg-card rounded-lg shadow flex flex-col justify-between">
-            <div>
-              <div className="flex items-center gap-4 mb-3">
-                <span className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-primary/10 text-primary">{icons[s.title]}</span>
-                <h4 className="text-lg font-semibold">{s.title}</h4>
+    <section className="py-16 bg-muted/10 border-t">
+      <div className="max-w-7xl mx-auto px-4 space-y-12">
+        <div className="text-center max-w-2xl mx-auto space-y-3">
+          <h2 className="text-3xl font-extrabold tracking-tight sm:text-4xl text-foreground">
+            {t('services_title')}
+          </h2>
+          <p className="text-muted-foreground text-sm">
+            {t('services_sub')}
+          </p>
+        </div>
+        <div className="grid gap-6 md:grid-cols-3">
+          {services.map((s) => (
+            <div key={s.title} className="p-6 bg-card rounded-lg shadow flex flex-col justify-between hover:border-primary/20 transition-all duration-300">
+              <div>
+                <div className="flex items-center gap-4 mb-3">
+                  <span className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-primary/10 text-primary">{icons[s.title]}</span>
+                  <h4 className="text-lg font-semibold">{s.title}</h4>
+                </div>
+                <p className="text-sm text-muted-foreground mb-4">{s.desc}</p>
               </div>
-              <p className="text-sm text-muted-foreground mb-4">{s.desc}</p>
+              <div className="mt-4">
+                <Button size="sm" variant="outline" onClick={() => window.location.href = '/services'}>See services</Button>
+              </div>
             </div>
-            <div className="mt-4">
-              <Button size="sm" variant="outline" onClick={() => window.location.href = '/services'}>See services</Button>
-            </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
     </section>
   )

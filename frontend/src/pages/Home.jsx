@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import Hero from '@/components/Hero'
-import TrustedBy from '@/components/TrustedBy'
+
 import ServicesPreview from '@/components/ServicesPreview'
 import Gallery from '@/components/Gallery'
 import MagazineShelf from '@/components/MagazineShelf'
+import Stats from '@/components/Stats'
+import TestimonialsSection from '@/components/TestimonialsSection'
+import FAQ from '@/components/FAQ'
 import { apiFetch } from '@/lib/api'
 import client from '@/lib/api'
 import Loader from '@/components/ui/loader'
@@ -55,8 +58,10 @@ export default function Home() {
   return (
     <div className="bg-background text-foreground">
       <Hero />
-      <TrustedBy />
+
       <ServicesPreview />
+      
+      <Stats />
 
       {galleryLoading ? (
         <section className="max-w-7xl mx-auto px-4 py-12 flex justify-center"><Loader /></section>
@@ -67,19 +72,17 @@ export default function Home() {
           '/src/assets/3.jpg',
           '/src/assets/4.jpg',
           '/src/assets/drpkdwivedi.jpg',
-          '/src/assets/anmol.png',
+          '/src/assets/sandhya.png',
           '/src/assets/gargi.png',
           '/src/assets/urvassi.png',
         ]} />
       )}
 
+      <TestimonialsSection />
+
       <MagazineShelf magazines={magazines} />
 
-      {/* <section className="max-w-7xl mx-auto px-4 py-12">
-        <h2 className="text-2xl font-bold mb-6">More</h2>
-        <p className="text-muted mb-6">Additional homepage content will be added here.</p>
-      </section> */}
-
+      <FAQ />
     </div>
   )
 }

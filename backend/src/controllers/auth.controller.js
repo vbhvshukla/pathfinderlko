@@ -15,7 +15,7 @@ async function register(req, res) {
 		// set httpOnly cookie
 		res.cookie('token', token, {
 			httpOnly: true,
-			secure: process.env.NODE_ENV === 'production',
+			secure: true,
 			sameSite: 'none',
 			maxAge: 7 * 24 * 60 * 60 * 1000,
 		})
@@ -38,7 +38,7 @@ async function login(req, res) {
 		const token = jwt.sign({ id: user._id, email: user.email, role: user.role, name: user.name }, process.env.JWT_SECRET, { expiresIn: '7d' });
 		res.cookie('token', token, {
 			httpOnly: true,
-			secure: process.env.NODE_ENV === 'production',
+			secure: true,
 			sameSite: 'none',
 			maxAge: 7 * 24 * 60 * 60 * 1000,
 		})
@@ -64,7 +64,7 @@ async function logout(req, res) {
 	try {
 		res.clearCookie('token', {
 			httpOnly: true,
-			secure: process.env.NODE_ENV === 'production',
+			secure: true,
 			sameSite: 'none',
 		});
 		return res.json({ message: 'Logged out' });

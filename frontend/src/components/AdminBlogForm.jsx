@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { apiFetch } from '@/lib/api'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import { Textarea } from '@/components/ui/textarea'
+import RichTextEditor from './RichTextEditor'
 import {
   AlertDialog as Dialog,
   AlertDialogTrigger as DialogTrigger,
@@ -75,9 +75,9 @@ export default function AdminBlogForm({ onCreated }) {
             <label className="text-sm font-medium">Excerpt</label>
             <Input value={form.excerpt} onChange={e => update('excerpt', e.target.value)} />
           </div>
-          <div>
+          <div className="space-y-2">
             <label className="text-sm font-medium">Content</label>
-            <Textarea value={form.content} onChange={e => update('content', e.target.value)} rows={10} required />
+            <RichTextEditor value={form.content} onChange={val => update('content', val)} />
           </div>
           <div className="grid grid-cols-2 gap-2">
             <div>

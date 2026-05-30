@@ -95,7 +95,7 @@ export default function MagazineShelf({ magazines = [] }) {
                   <Card className="overflow-hidden">
                     <CardHeader>
                       <CardTitle className="text-lg">{m.title}</CardTitle>
-                      <CardDescription className="text-sm">{m.date}</CardDescription>
+                      <CardDescription className="text-sm">{m.date || '\u00A0'}</CardDescription>
                     </CardHeader>
 
                     <CardContent className="p-0">

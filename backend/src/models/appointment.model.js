@@ -9,12 +9,13 @@ const AppointmentSchema = new mongoose.Schema({
 	address: { type: String },
 	serviceId: { type: String },
 	serviceName: { type: String },
+	userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
 	sessions: { type: Number, default: 1 },
 	charges: { type: Number, default: 0 },
 	date: { type: Date },
 	timeSlot: { type: String },
 	notes: { type: String },
-	status: { type: String, enum: ['pending', 'confirmed', 'cancelled'], default: 'pending' },
+	status: { type: String, enum: ['pending', 'confirmed', 'cancelled', 'rescheduled'], default: 'pending' },
 	createdAt: { type: Date, default: Date.now },
 });
 

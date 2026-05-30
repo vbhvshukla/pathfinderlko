@@ -52,9 +52,23 @@ async function listPosts(req, res) {
 		const page = Math.max(1, Number(req.query.page) || 1);
 		const limit = Math.max(1, Math.min(50, Number(req.query.limit) || 10));
 		const skip = (page - 1) * limit;
+
+		const filter = {};
+		if (req.query.category) {
+			filter.categories = req.query.category;
+		}
+		if (req.query.q) {
+			const searchRegex = new RegExp(req.query.q, 'i');
+			filter.$or = [
+				{ title: searchRegex },
+				{ excerpt: searchRegex },
+				{ content: searchRegex },
+			];
+		}
+
 		const [posts, total] = await Promise.all([
-			Post.find().sort({ createdAt: -1 }).skip(skip).limit(limit),
-			Post.countDocuments(),
+			Post.find(filter).sort({ createdAt: -1 }).skip(skip).limit(limit),
+			Post.countDocuments(filter),
 		]);
 		return res.json({ posts, total, page, limit });
 	} catch (err) {

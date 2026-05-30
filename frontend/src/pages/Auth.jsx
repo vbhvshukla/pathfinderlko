@@ -52,7 +52,12 @@ export default function Auth() {
         setStatus({ type: 'success', message: 'Logged in' })
       }
       setForm(prev => ({ ...prev, password: '', confirmPassword: '' }))
-      if (user?.role === 'admin') {
+      
+      const searchParams = new URLSearchParams(window.location.search)
+      const redirect = searchParams.get('redirect')
+      if (redirect) {
+        navigate(redirect)
+      } else if (user?.role === 'admin') {
         navigate('/admin')
       } else {
         navigate('/')

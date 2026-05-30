@@ -1,8 +1,27 @@
 import React from 'react'
+import { ShieldCheck } from 'lucide-react'
 
 export default function Footer() {
   return (
     <footer className="backdrop-blur border-t border-border mt-6">
+      {/* Aegis Branding Banner Strip */}
+      <div className="border-b border-border py-6 bg-muted/10">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-6 text-left">
+          <div className="flex items-center gap-3">
+            <div className="p-2 bg-primary/10 rounded-xl text-primary shrink-0">
+              <ShieldCheck className="w-5 h-5" />
+            </div>
+            <div>
+              <h4 className="text-sm font-bold text-foreground leading-tight">Under the Aegis of Brigupyari Seva Samiti</h4>
+              <p className="text-xs text-muted-foreground mt-0.5">Registered under the Societies Registration Act, 1860 • Registered Welfare Society</p>
+            </div>
+          </div>
+          <div className="text-xs text-muted-foreground leading-relaxed max-w-xl">
+            Pathfinder operates as the dedicated youth welfare and counseling initiative under **Brigupyari Seva Samiti**, driving community wellness advocacy, career clarity, and self-development across Lucknow.
+          </div>
+        </div>
+      </div>
+
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 grid gap-8 md:grid-cols-3 text-center">
         <div className="md:text-left">
           <h3 className="text-lg font-bold">Pathfinder</h3>
@@ -23,7 +42,7 @@ export default function Footer() {
         <div className="md:text-right">
           <h4 className="font-semibold">Contact</h4>
           <p className="text-sm text-muted-foreground mt-2">Email: <a href="mailto:info@pathfinderlko.in" className="underline">info@pathfinderlko.in</a></p>
-          <p className="text-sm mt-1">Phone: <a href="tel:+918756700557" className="underline">+91 875 670 0557</a></p>
+          <p className="text-sm mt-1">Phone: <a href="tel:+919794940394" className="underline">+91 97949 40394</a></p>
         </div>
         </div>
 

@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { Button } from '@/components/ui/button'
-import { Home, Info, Briefcase, FileText, Mail, Calendar, LogIn, LayoutDashboard } from 'lucide-react'
+import { Home, Info, Briefcase, FileText, Mail, Calendar, LogIn, LayoutDashboard, HeartPulse, Globe, Image as ImageIcon } from 'lucide-react'
 import { useDispatch, useSelector } from 'react-redux'
 import { logout as logoutAction, selectCurrentUser } from '@/store/authSlice'
+import { useTranslation } from 'react-i18next'
 
 export default function Navbar() {
+  const { t, i18n } = useTranslation()
   const [open, setOpen] = useState(false)
   const [user, setUser] = useState(null)
   const location = useLocation()
@@ -26,57 +28,88 @@ export default function Navbar() {
     navigate('/')
   }
 
+  const toggleLanguage = () => {
+    const nextLang = i18n.language === 'en' ? 'hi' : 'en'
+    i18n.changeLanguage(nextLang)
+  }
+
   return (
-    <header className="w-full bg-background/70 backdrop-blur sticky top-0 z-40">
+    <header className="w-full bg-background/70 backdrop-blur sticky top-0 z-40 border-b">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center gap-4">
-            <Link to="/" className="text-lg font-bold text-primary">
+            <Link to="/" className="text-xl font-bold tracking-tight text-primary">
               Pathfinder
             </Link>
           </div>
+          
           <nav className="hidden md:flex items-center gap-6">
             {isAdmin ? (
               <>
-                <Link to="/admin" className={`text-sm flex items-center gap-2 ${isActive('/admin') ? 'text-primary font-semibold' : 'text-foreground hover:text-primary'}`}><LayoutDashboard className="w-4 h-4"/>Admin Dashboard</Link>
+                <Link to="/admin" className={`text-sm flex items-center gap-2 ${isActive('/admin') ? 'text-primary font-semibold' : 'text-foreground hover:text-primary'}`}><LayoutDashboard className="w-4 h-4"/>{t('nav_dashboard')}</Link>
                 {user ? (
                   <div className="flex items-center gap-3">
                     <span className="text-sm">Hi {user.name}!</span>
-                    <Button variant="ghost" size="sm" onClick={handleLogout}>Logout</Button>
+                    <Button variant="ghost" size="sm" onClick={handleLogout}>{t('nav_signout')}</Button>
                   </div>
                 ) : null}
               </>
             ) : (
               <>
-                <Link to="/" className={`text-sm flex items-center gap-2 ${isActive('/') ? 'text-primary font-semibold' : 'text-foreground hover:text-primary'}`}><Home className="w-4 h-4"/>Home</Link>
-                <Link to="/about" className={`text-sm flex items-center gap-2 ${isActive('/about') ? 'text-primary font-semibold' : 'text-foreground hover:text-primary'}`}><Info className="w-4 h-4"/>About</Link>
-                <Link to="/services" className={`text-sm flex items-center gap-2 ${isActive('/services') ? 'text-primary font-semibold' : 'text-foreground hover:text-primary'}`}><Briefcase className="w-4 h-4"/>Services</Link>
-                <Link to="/blog" className={`text-sm flex items-center gap-2 ${isActive('/blog') ? 'text-primary font-semibold' : 'text-foreground hover:text-primary'}`}><FileText className="w-4 h-4"/>Blog</Link>
-                <Link to="/contact" className={`text-sm flex items-center gap-2 ${isActive('/contact') ? 'text-primary font-semibold' : 'text-foreground hover:text-primary'}`}><Mail className="w-4 h-4"/>Contact</Link>
+                <Link to="/" className={`text-sm flex items-center gap-2 ${isActive('/') ? 'text-primary font-semibold' : 'text-foreground hover:text-primary'}`}><Home className="w-4 h-4"/>{t('nav_home')}</Link>
+                <Link to="/about" className={`text-sm flex items-center gap-2 ${isActive('/about') ? 'text-primary font-semibold' : 'text-foreground hover:text-primary'}`}><Info className="w-4 h-4"/>{t('nav_about')}</Link>
+                <Link to="/services" className={`text-sm flex items-center gap-2 ${isActive('/services') ? 'text-primary font-semibold' : 'text-foreground hover:text-primary'}`}><Briefcase className="w-4 h-4"/>{t('nav_services')}</Link>
+                <Link to="/blog" className={`text-sm flex items-center gap-2 ${isActive('/blog') ? 'text-primary font-semibold' : 'text-foreground hover:text-primary'}`}><FileText className="w-4 h-4"/>{t('nav_blog')}</Link>
+                <Link to="/events" className={`text-sm flex items-center gap-2 ${isActive('/events') ? 'text-primary font-semibold' : 'text-foreground hover:text-primary'}`}><Calendar className="w-4 h-4"/>{t('nav_events')}</Link>
+                <Link to="/gallery" className={`text-sm flex items-center gap-2 ${isActive('/gallery') ? 'text-primary font-semibold' : 'text-foreground hover:text-primary'}`}><ImageIcon className="w-4 h-4"/>{t('nav_gallery') || 'Gallery'}</Link>
+                <Link to="/quiz" className={`text-sm flex items-center gap-2 ${isActive('/quiz') ? 'text-primary font-semibold' : 'text-foreground hover:text-primary'}`}><HeartPulse className="w-4 h-4"/>{t('nav_quiz')}</Link>
+                <Link to="/contact" className={`text-sm flex items-center gap-2 ${isActive('/contact') ? 'text-primary font-semibold' : 'text-foreground hover:text-primary'}`}><Mail className="w-4 h-4"/>{t('nav_contact')}</Link>
+                {user && (
+                  <Link to="/my-appointments" className={`text-sm flex items-center gap-2 ${isActive('/my-appointments') ? 'text-primary font-semibold' : 'text-foreground hover:text-primary'}`}><Calendar className="w-4 h-4"/>{t('nav_my_appointments')}</Link>
+                )}
                 <Button variant="default" size="sm" asChild>
-                  <Link to="/appointments" className="flex items-center gap-2"><Calendar className="w-4 h-4"/>Book Now</Link>
+                  <Link to="/appointments" className="flex items-center gap-2"><Calendar className="w-4 h-4"/>{t('nav_book')}</Link>
                 </Button>
                 {user ? (
                   <div className="flex items-center gap-3">
                     <span className="text-sm">Hi {user.name}!</span>
-                    <Button variant="ghost" size="sm" onClick={handleLogout}>Logout</Button>
+                    <Button variant="ghost" size="sm" onClick={handleLogout}>{t('nav_signout')}</Button>
                   </div>
                 ) : (
-                  <div className="hidden md:block">
-                    <Button variant="ghost" asChild>
-                      <Link to="/auth" className="flex items-center gap-2"><LogIn className="w-4 h-4"/>Sign in</Link>
-                    </Button>
-                  </div>
+                  <Button variant="ghost" size="sm" asChild>
+                    <Link to="/auth" className="flex items-center gap-2"><LogIn className="w-4 h-4"/>{t('nav_signin')}</Link>
+                  </Button>
                 )}
               </>
             )}
+
+            {/* Language Switcher */}
+            <Button
+              variant="outline"
+              size="icon"
+              onClick={toggleLanguage}
+              className="w-8 h-8 rounded-full border-primary/20 text-primary hover:bg-primary/5"
+              title="Switch Language / भाषा बदलें"
+            >
+              <Globe className="w-4 h-4" />
+            </Button>
           </nav>
 
-          <div className="md:hidden flex items-center">
+          <div className="md:hidden flex items-center gap-2">
+            {/* Language Switcher Mobile */}
+            <Button
+              variant="outline"
+              size="icon"
+              onClick={toggleLanguage}
+              className="w-8 h-8 rounded-full border-primary/20 text-primary hover:bg-primary/5"
+            >
+              <Globe className="w-4 h-4" />
+            </Button>
+
             <button
               aria-label="Toggle menu"
               onClick={() => setOpen(!open)}
-              className="p-2 rounded-md hover:bg-accent/10"
+              className="p-2 rounded-md hover:bg-accent/10 text-foreground"
             >
               <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 {open ? (
@@ -91,29 +124,35 @@ export default function Navbar() {
       </div>
 
       {open && (
-          <div className="md:hidden bg-background/90 border-t border-border">
-          <div className="px-4 py-3 space-y-2">
+        <div className="md:hidden bg-background/95 border-t border-border animate-in slide-in-from-top-4 duration-200">
+          <div className="px-4 py-4 space-y-3">
             {isAdmin ? (
               <>
-                <Link to="/admin" onClick={() => setOpen(false)} className={`block flex items-center gap-2 ${isActive('/admin') ? 'text-primary font-semibold' : 'text-foreground'}`}><LayoutDashboard className="w-4 h-4"/>Admin Dashboard</Link>
+                <Link to="/admin" onClick={() => setOpen(false)} className={`block flex items-center gap-2 ${isActive('/admin') ? 'text-primary font-semibold' : 'text-foreground'}`}><LayoutDashboard className="w-4 h-4"/>{t('nav_dashboard')}</Link>
                 {user ? (
-                  <button onClick={handleLogout} className="block text-left w-full flex items-center gap-2"><LogIn className="w-4 h-4"/>Sign out</button>
+                  <button onClick={handleLogout} className="block text-left w-full flex items-center gap-2"><LogIn className="w-4 h-4"/>{t('nav_signout')}</button>
                 ) : null}
               </>
             ) : (
               <>
                 {pathname !== '/' && (
-                  <Link to="/" onClick={() => setOpen(false)} className={`block flex items-center gap-2 ${isActive('/') ? 'text-primary font-semibold' : 'text-foreground'}`}><Home className="w-4 h-4"/>Home</Link>
+                  <Link to="/" onClick={() => setOpen(false)} className={`block flex items-center gap-2 ${isActive('/') ? 'text-primary font-semibold' : 'text-foreground'}`}><Home className="w-4 h-4"/>{t('nav_home')}</Link>
                 )}
-                <Link to="/about" onClick={() => setOpen(false)} className={`block flex items-center gap-2 ${isActive('/about') ? 'text-primary font-semibold' : 'text-foreground'}`}><Info className="w-4 h-4"/>About</Link>
-                <Link to="/services" onClick={() => setOpen(false)} className={`block flex items-center gap-2 ${isActive('/services') ? 'text-primary font-semibold' : 'text-foreground'}`}><Briefcase className="w-4 h-4"/>Services</Link>
-                <Link to="/blog" onClick={() => setOpen(false)} className={`block flex items-center gap-2 ${isActive('/blog') ? 'text-primary font-semibold' : 'text-foreground'}`}><FileText className="w-4 h-4"/>Blog</Link>
-                <Link to="/contact" onClick={() => setOpen(false)} className={`block flex items-center gap-2 ${isActive('/contact') ? 'text-primary font-semibold' : 'text-foreground'}`}><Mail className="w-4 h-4"/>Contact</Link>
-                <Link to="/appointments" onClick={() => setOpen(false)} className={`block flex items-center gap-2 ${isActive('/appointments') ? 'text-primary font-semibold' : 'text-foreground'}`}><Calendar className="w-4 h-4"/>Book Now</Link>
+                <Link to="/about" onClick={() => setOpen(false)} className={`block flex items-center gap-2 ${isActive('/about') ? 'text-primary font-semibold' : 'text-foreground'}`}><Info className="w-4 h-4"/>{t('nav_about')}</Link>
+                <Link to="/services" onClick={() => setOpen(false)} className={`block flex items-center gap-2 ${isActive('/services') ? 'text-primary font-semibold' : 'text-foreground'}`}><Briefcase className="w-4 h-4"/>{t('nav_services')}</Link>
+                <Link to="/blog" onClick={() => setOpen(false)} className={`block flex items-center gap-2 ${isActive('/blog') ? 'text-primary font-semibold' : 'text-foreground'}`}><FileText className="w-4 h-4"/>{t('nav_blog')}</Link>
+                <Link to="/events" onClick={() => setOpen(false)} className={`block flex items-center gap-2 ${isActive('/events') ? 'text-primary font-semibold' : 'text-foreground'}`}><Calendar className="w-4 h-4"/>{t('nav_events')}</Link>
+                <Link to="/gallery" onClick={() => setOpen(false)} className={`block flex items-center gap-2 ${isActive('/gallery') ? 'text-primary font-semibold' : 'text-foreground'}`}><ImageIcon className="w-4 h-4"/>{t('nav_gallery') || 'Gallery'}</Link>
+                <Link to="/quiz" onClick={() => setOpen(false)} className={`block flex items-center gap-2 ${isActive('/quiz') ? 'text-primary font-semibold' : 'text-foreground'}`}><HeartPulse className="w-4 h-4"/>{t('nav_quiz')}</Link>
+                <Link to="/contact" onClick={() => setOpen(false)} className={`block flex items-center gap-2 ${isActive('/contact') ? 'text-primary font-semibold' : 'text-foreground'}`}><Mail className="w-4 h-4"/>{t('nav_contact')}</Link>
+                {user && (
+                  <Link to="/my-appointments" onClick={() => setOpen(false)} className={`block flex items-center gap-2 ${isActive('/my-appointments') ? 'text-primary font-semibold' : 'text-foreground'}`}><Calendar className="w-4 h-4"/>{t('nav_my_appointments')}</Link>
+                )}
+                <Link to="/appointments" onClick={() => setOpen(false)} className={`block flex items-center gap-2 ${isActive('/appointments') ? 'text-primary font-semibold' : 'text-foreground'}`}><Calendar className="w-4 h-4"/>{t('nav_book')}</Link>
                 {user ? (
-                  <button onClick={handleLogout} className="block text-left w-full flex items-center gap-2"><LogIn className="w-4 h-4"/>Sign out</button>
+                  <button onClick={handleLogout} className="block text-left w-full flex items-center gap-2 text-destructive"><LogIn className="w-4 h-4"/>{t('nav_signout')}</button>
                 ) : (
-                  <Link to="/auth" onClick={() => setOpen(false)} className="block flex items-center gap-2"><LogIn className="w-4 h-4"/>Sign in</Link>
+                  <Link to="/auth" onClick={() => setOpen(false)} className="block flex items-center gap-2"><LogIn className="w-4 h-4"/>{t('nav_signin')}</Link>
                 )}
               </>
             )}

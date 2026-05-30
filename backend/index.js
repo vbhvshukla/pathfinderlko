@@ -34,6 +34,11 @@ try {
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// CSRF Protection
+const { setupCsrf, verifyCsrf } = require('./src/middlewares/csrf.middleware');
+app.use(setupCsrf);
+app.use(verifyCsrf);
+
 // Connect to database and seed admin user
 // const bcrypt = require('bcryptjs')
 // const User = require('./src/models/user.model')
@@ -83,6 +88,10 @@ try { app.use('/api/posts', require('./src/routes/post.routes')); } catch (e) {}
 try { app.use('/api/testimonials', require('./src/routes/testimonial.routes')); } catch (e) {}
 try { app.use('/api/uploads', require('./src/routes/upload.routes')); } catch (e) {}
 try { app.use('/api/magazines', require('./src/routes/magazine.routes')); } catch (e) {}
+try { app.use('/api/services', require('./src/routes/service.routes')); } catch (e) {}
+try { app.use('/api/rsvp', require('./src/routes/rsvp.routes')); } catch (e) {}
+try { app.use('/api/events', require('./src/routes/event.routes')); } catch (e) {}
+try { app.use('/api/users', require('./src/routes/user.routes')); } catch (e) {}
 
 // Fallback
 app.use((req, res) => res.status(404).json({ error: 'Not found' }));

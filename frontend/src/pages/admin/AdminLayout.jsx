@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { NavLink, Outlet } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { selectCurrentUser } from '@/store/authSlice'
-import { Home, Calendar, FileText, Image, BookOpen, Mail, Menu } from 'lucide-react'
+import { Home, Calendar, FileText, Image, BookOpen, Mail, Menu, Briefcase, Users } from 'lucide-react'
 
 export default function AdminLayout() {
   const [open, setOpen] = useState(false)
@@ -18,9 +18,12 @@ export default function AdminLayout() {
         <nav className="space-y-1">
           <NavLink to="/admin" end className={linkClass}><Home className="inline-block mr-2 w-5 h-5"/>Dashboard</NavLink>
           <NavLink to="/admin/appointments" className={linkClass}><Calendar className="inline-block mr-2 w-5 h-5"/>Appointments</NavLink>
+          <NavLink to="/admin/events" className={linkClass}><Calendar className="inline-block mr-2 w-5 h-5"/>Events & RSVPs</NavLink>
+          <NavLink to="/admin/services" className={linkClass}><Briefcase className="inline-block mr-2 w-5 h-5"/>Services</NavLink>
           <NavLink to="/admin/blogs" className={linkClass}><FileText className="inline-block mr-2 w-5 h-5"/>Blogs</NavLink>
           <NavLink to="/admin/images" className={linkClass}><Image className="inline-block mr-2 w-5 h-5"/>Images</NavLink>
           <NavLink to="/admin/magazines" className={linkClass}><BookOpen className="inline-block mr-2 w-5 h-5"/>Magazines</NavLink>
+          <NavLink to="/admin/users" className={linkClass}><Users className="inline-block mr-2 w-5 h-5"/>Users</NavLink>
           <NavLink to="/admin/contacts" className={linkClass}><Mail className="inline-block mr-2 w-5 h-5"/>Contact Messages</NavLink>
         </nav>
       </aside>
@@ -45,9 +48,12 @@ export default function AdminLayout() {
           <nav className="space-y-1">
             <NavLink to="/admin" end className={linkClass} onClick={() => setOpen(false)}><Home className="inline-block mr-2 w-5 h-5"/>Dashboard</NavLink>
             <NavLink to="/admin/appointments" className={linkClass} onClick={() => setOpen(false)}><Calendar className="inline-block mr-2 w-5 h-5"/>Appointments</NavLink>
+            <NavLink to="/admin/events" className={linkClass} onClick={() => setOpen(false)}><Calendar className="inline-block mr-2 w-5 h-5"/>Events & RSVPs</NavLink>
+            <NavLink to="/admin/services" className={linkClass} onClick={() => setOpen(false)}><Briefcase className="inline-block mr-2 w-5 h-5"/>Services</NavLink>
             <NavLink to="/admin/blogs" className={linkClass} onClick={() => setOpen(false)}><FileText className="inline-block mr-2 w-5 h-5"/>Blogs</NavLink>
             <NavLink to="/admin/images" className={linkClass} onClick={() => setOpen(false)}><Image className="inline-block mr-2 w-5 h-5"/>Images</NavLink>
             <NavLink to="/admin/magazines" className={linkClass} onClick={() => setOpen(false)}><BookOpen className="inline-block mr-2 w-5 h-5"/>Magazines</NavLink>
+            <NavLink to="/admin/users" className={linkClass} onClick={() => setOpen(false)}><Users className="inline-block mr-2 w-5 h-5"/>Users</NavLink>
             <NavLink to="/admin/contacts" className={linkClass} onClick={() => setOpen(false)}><Mail className="inline-block mr-2 w-5 h-5"/>Contact Messages</NavLink>
           </nav>
         </aside>

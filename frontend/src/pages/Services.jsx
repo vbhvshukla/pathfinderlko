@@ -14,12 +14,13 @@ import {
 } from "@/components/ui/carousel";
 import Autoplay from "embla-carousel-autoplay"
 import drpkd from "../assets/drpkd.png";
-import anmol from "../assets/anmol.png";
-import ekansh from "../assets/ekansh.png";
+import urvassi from "../assets/urvassi.png";
+import vaibhav from "../assets/vaibhav.png";
 import gargi from "../assets/gargi.png";
 import sandhya from "../assets/sandhya.png";
 import client from '@/lib/api'
 import Loader from '@/components/ui/loader'
+import { Skeleton } from '@/components/ui/skeleton'
 
 export default function Services() {
     const [serviceImages, setServiceImages] = useState([])
@@ -174,9 +175,12 @@ export default function Services() {
                     <Carousel orientation="vertical" plugins={[Autoplay({loop:true})]}>
                                 <CarouselContent className="items-stretch h-screen">
                                     {loadingServices ? (
-                                        <div className="p-4 flex items-center justify-center w-full"><Loader /></div>
+                                        <div className="p-2 space-y-4 w-full">
+                                            <Skeleton className="w-full h-36 rounded-md" />
+                                            <Skeleton className="w-full h-36 rounded-md" />
+                                        </div>
                                     ) : (
-                                        (serviceImages.length ? serviceImages : [sandhya, drpkd, anmol, ekansh, gargi]).map((img, i) => (
+                                        (serviceImages.length ? serviceImages : [sandhya, drpkd, urvassi, vaibhav, gargi]).map((img, i) => (
                                             <CarouselItem key={i} className="basis-auto">
                                                 <div className="p-2">
                                                     <img src={img} alt={`team-${i}`} className="w-full h-36 object-cover rounded-md shadow" />

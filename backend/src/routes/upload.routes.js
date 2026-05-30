@@ -15,8 +15,8 @@ const upload = multer({
 const { uploadImage, listUploads, deleteUpload } = require('../controllers/upload.controller');
 const { verifyToken, requireRole } = require('../middlewares/auth.middleware');
 
-// Admin-only upload endpoint (file field: file)
-router.post('/', verifyToken, requireRole('admin'), upload.single('file'), uploadImage);
+// Admin-only upload endpoint (file field: file, supports multiple file uploads up to 100)
+router.post('/', verifyToken, requireRole('admin'), upload.array('file', 100), uploadImage);
 
 // List uploads by category (admin)
 router.get('/', listUploads);

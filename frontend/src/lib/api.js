@@ -6,6 +6,8 @@ if (base && base.endsWith('/api')) base = base.replace(/\/api$/, '')
 const client = axios.create({
   baseURL: base || '',
   withCredentials: true,
+  xsrfCookieName: 'csrfToken',
+  xsrfHeaderName: 'X-CSRF-Token',
 })
 
 export default client
