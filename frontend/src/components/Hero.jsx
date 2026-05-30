@@ -1,6 +1,6 @@
 import React from 'react'
 import { Button } from '@/components/ui/button'
-import { Carousel, CarouselContent, CarouselItem} from '@/components/ui/carousel'
+import { Carousel, CarouselContent, CarouselItem } from '@/components/ui/carousel'
 import img1 from '../assets/1.jpg'
 import img2 from '../assets/2.jpg'
 import img3 from '../assets/3.jpg'
@@ -21,10 +21,10 @@ export default function Hero() {
               <Button onClick={() => window.location.href = '/appointments'}>{t('hero_cta_book')}</Button>
               <Button variant="outline" onClick={() => window.location.href = '/services'}>{t('hero_cta_about')}</Button>
             </div>
-            <p className="mt-4 text-sm text-gray-600 text-center md:text-left">Quick contact: <a href="mailto:info@pathfinderlko.in" className="underline">info@pathfinderlko.in</a> • <a href="tel:+919794940394" className="underline">+91 97949 40394</a></p>
+            <p className="mt-4 text-sm text-gray-600 text-center md:text-left">Quick contact: <a href="mailto:pathfinder.lko2710@gmail.com" className="underline">pathfinder.lko2710@gmail.com</a> • <a href="tel:+919794940394" className="underline">+91 979 494 0394</a></p>
           </div>
           <div className="hidden md:block">
-            <Carousel className="w-full" plugins={[Autoplay({delay: 2000})]}>
+            <Carousel className="w-full" plugins={[Autoplay({ delay: 2000 })]}>
               <CarouselContent className="h-64">
                 <CarouselItem>
                   <div className="w-full h-64 bg-card rounded-lg shadow-lg overflow-hidden">

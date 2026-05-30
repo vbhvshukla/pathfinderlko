@@ -41,10 +41,10 @@ export default function Footer() {
 
         <div className="md:text-right">
           <h4 className="font-semibold">Contact</h4>
-          <p className="text-sm text-muted-foreground mt-2">Email: <a href="mailto:info@pathfinderlko.in" className="underline">info@pathfinderlko.in</a></p>
-          <p className="text-sm mt-1">Phone: <a href="tel:+919794940394" className="underline">+91 97949 40394</a></p>
+          <p className="text-sm text-muted-foreground mt-2">Email: <a href="mailto:pathfinder.lko2710@gmail.com" className="underline">pathfinder.lko2710@gmail.com</a></p>
+          <p className="text-sm mt-1">Phone: <a href="tel:+919794940394" className="underline">+91 979 494 0394</a></p>
         </div>
-        </div>
+      </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 border-t border-border mt-2 mb-6 pb-4 pt-4">
         <div className="flex flex-col md:flex-row items-center justify-between text-sm text-muted-foreground">
