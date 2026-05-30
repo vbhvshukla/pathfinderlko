@@ -1,5 +1,6 @@
 import React from 'react'
 import { ShieldCheck } from 'lucide-react'
+import bhriguLogo from '../assets/Bhrigu.png'
 
 export default function Footer() {
   return (
@@ -8,8 +9,8 @@ export default function Footer() {
       <div className="border-b border-border py-6 bg-muted/10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-6 text-left">
           <div className="flex items-center gap-3">
-            <div className="p-2 bg-primary/10 rounded-xl text-primary shrink-0">
-              <ShieldCheck className="w-5 h-5" />
+            <div className="w-12 h-12 bg-white border border-border/80 rounded-xl overflow-hidden shrink-0 shadow-sm p-1 flex items-center justify-center">
+              <img src={bhriguLogo} alt="Bhrigu Logo" className="w-full h-full object-contain" />
             </div>
             <div>
               <h4 className="text-sm font-bold text-foreground leading-tight">Under the Aegis of Brigupyari Seva Samiti</h4>
