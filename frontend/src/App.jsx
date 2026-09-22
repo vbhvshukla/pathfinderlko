@@ -60,11 +60,14 @@ function PageTransition({ children }) {
 }
 
 function App() {
+  const { pathname } = useLocation()
+  const isAdminRoute = pathname.startsWith('/admin')
+
   return (
     <div className="min-h-screen flex flex-col">
       <Navbar />
       <AuthLoader>
-        <main className="flex-1 pb-16 md:pb-0">
+        <main className={`flex-1 ${isAdminRoute ? '' : 'pb-16 md:pb-0'}`}>
           <ErrorBoundary>
             <Suspense fallback={<PageFallback />}>
               <PageTransition>
@@ -111,9 +114,9 @@ function App() {
           </ErrorBoundary>
         </main>
       </AuthLoader>
-      <Footer />
+      {!isAdminRoute && <Footer />}
       <Toaster />
-      <WhatsAppButton />
+      {!isAdminRoute && <WhatsAppButton />}
       <MobileTabBar />
     </div>
   )

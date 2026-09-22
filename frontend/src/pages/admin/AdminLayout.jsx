@@ -1,21 +1,29 @@
 import React, { useState } from 'react'
-import { NavLink, Outlet } from 'react-router-dom'
-import { useSelector } from 'react-redux'
-import { selectCurrentUser } from '@/store/authSlice'
-import { Home, Calendar, FileText, Image, BookOpen, Mail, Menu, Briefcase, Users } from 'lucide-react'
+import { NavLink, Outlet, useNavigate } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
+import { logout as logoutAction, selectCurrentUser } from '@/store/authSlice'
+import { Home, Calendar, FileText, Image, BookOpen, Mail, Menu, Briefcase, Users, LogOut } from 'lucide-react'
 
 export default function AdminLayout() {
   const [open, setOpen] = useState(false)
   const user = useSelector(selectCurrentUser)
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
   const linkClass = ({ isActive }) =>
     `block px-3 py-2 rounded ${isActive ? 'bg-primary text-primary-foreground font-semibold' : 'text-foreground hover:bg-accent/10'}`
+
+  async function handleLogout() {
+    setOpen(false)
+    await dispatch(logoutAction())
+    navigate('/')
+  }
 
   return (
     <div className="min-h-screen flex bg-background text-foreground">
       {/* desktop sidebar */}
-      <aside className="hidden md:block w-64 border-r border-border p-4 text-left">
+      <aside className="hidden md:flex w-64 border-r border-border p-4 text-left flex-col">
         <div className="text-xl font-bold mb-6 text-left">Welcome Back!</div>
-        <nav className="space-y-1">
+        <nav className="space-y-1 flex-1">
           <NavLink to="/admin" end className={linkClass}><Home className="inline-block mr-2 w-5 h-5"/>Dashboard</NavLink>
           <NavLink to="/admin/appointments" className={linkClass}><Calendar className="inline-block mr-2 w-5 h-5"/>Appointments</NavLink>
           <NavLink to="/admin/events" className={linkClass}><Calendar className="inline-block mr-2 w-5 h-5"/>Events & RSVPs</NavLink>
@@ -26,10 +34,16 @@ export default function AdminLayout() {
           <NavLink to="/admin/users" className={linkClass}><Users className="inline-block mr-2 w-5 h-5"/>Users</NavLink>
           <NavLink to="/admin/contacts" className={linkClass}><Mail className="inline-block mr-2 w-5 h-5"/>Contact Messages</NavLink>
         </nav>
+        <button
+          onClick={handleLogout}
+          className="flex items-center gap-2 px-3 py-2 rounded text-sm font-medium text-destructive hover:bg-destructive/10 mt-4 border-t border-border pt-4"
+        >
+          <LogOut className="w-5 h-5" /> Sign out{user?.name ? ` (${user.name})` : ''}
+        </button>
       </aside>
 
       {/* mobile header */}
-      <div className="md:hidden fixed top-0 left-0 right-0 z-40 bg-background/80 backdrop-blur border-b border-border">
+      <div className="md:hidden fixed top-0 left-0 right-0 z-40 bg-background/80 backdrop-blur border-b border-border pt-[env(safe-area-inset-top)]">
         <div className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
           <div className="text-lg font-bold">Admin</div>
           <button onClick={() => setOpen(o => !o)} aria-label="Toggle admin menu" className="p-2 rounded hover:bg-accent/10">
@@ -56,10 +70,16 @@ export default function AdminLayout() {
             <NavLink to="/admin/users" className={linkClass} onClick={() => setOpen(false)}><Users className="inline-block mr-2 w-5 h-5"/>Users</NavLink>
             <NavLink to="/admin/contacts" className={linkClass} onClick={() => setOpen(false)}><Mail className="inline-block mr-2 w-5 h-5"/>Contact Messages</NavLink>
           </nav>
+          <button
+            onClick={handleLogout}
+            className="w-full flex items-center gap-2 px-3 py-2 rounded text-sm font-medium text-destructive hover:bg-destructive/10 mt-4 border-t border-border pt-4"
+          >
+            <LogOut className="w-5 h-5" /> Sign out{user?.name ? ` (${user.name})` : ''}
+          </button>
         </aside>
       )}
 
-      <main className={`flex-1 p-6 ${open ? 'pt-20' : ''}`}>
+      <main className="flex-1 p-6 pt-20 md:pt-6 pb-[calc(env(safe-area-inset-bottom)+1.5rem)] md:pb-6">
         <Outlet />
       </main>
     </div>
