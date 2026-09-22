@@ -6,6 +6,7 @@ import client from '@/lib/api'
 import Loader from '@/components/ui/loader'
 import { Image as ImageIcon, Upload, Eye, Trash2, Sparkles, FolderOpen } from 'lucide-react'
 import { Label } from '@/components/ui/label'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 
 export default function AdminImages() {
   const [files, setFiles] = useState([])
@@ -135,15 +136,16 @@ export default function AdminImages() {
 
             <div className="space-y-2">
               <Label className="text-xs flex items-center gap-1.5"><FolderOpen className="w-3.5 h-3.5 text-primary" /> Category</Label>
-              <select 
-                value={category} 
-                onChange={e => setCategory(e.target.value)} 
-                className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1.5 text-sm shadow-sm focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary cursor-pointer"
-              >
-                <option value="services">Service Page</option>
-                <option value="gallery">Events & Workshops (Gallery)</option>
-                <option value="newspaper">Paper Cutouts (Media)</option>
-              </select>
+              <Select value={category} onValueChange={setCategory}>
+                <SelectTrigger className="w-full h-9 text-sm">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="services">Service Page</SelectItem>
+                  <SelectItem value="gallery">Events & Workshops (Gallery)</SelectItem>
+                  <SelectItem value="newspaper">Paper Cutouts (Media)</SelectItem>
+                </SelectContent>
+              </Select>
             </div>
 
             <div className="flex items-center justify-between md:justify-around gap-4 h-9">
@@ -187,61 +189,94 @@ export default function AdminImages() {
             No images uploaded yet under this category.
           </div>
         ) : (
-          <Card>
-            <CardContent className="overflow-x-auto p-0">
-              <table className="w-full text-sm border-collapse text-left">
-                <thead>
-                  <tr className="border-b bg-muted/20 text-muted-foreground text-xs uppercase font-semibold">
-                    <th className="p-4 w-24">Thumbnail</th>
-                    <th className="p-4">Filename / Public ID</th>
-                    <th className="p-4">Category</th>
-                    <th className="p-4">Status</th>
-                    <th className="p-4 text-right">Actions</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y">
-                  {images.map(img => (
-                    <tr key={img._id || img.id} className="hover:bg-muted/10 transition-colors">
-                      <td className="p-4">
-                        <div className="w-16 h-16 bg-muted rounded-lg overflow-hidden border border-border shadow-sm">
-                          <img src={img.url} alt={img.alt || img.title || 'upload'} className="w-full h-full object-cover" />
-                        </div>
-                      </td>
-                      <td className="p-4 font-mono text-xs text-foreground max-w-xs truncate">
-                        {img.title || img.publicId || 'Untitled Upload'}
-                      </td>
-                      <td className="p-4">
-                        <Badge variant="outline" className="bg-primary/5 text-primary border-primary/10 text-xs">
-                          {img.category || category}
-                        </Badge>
-                      </td>
-                      <td className="p-4">
-                        <Badge className={img.featured ? 'bg-emerald-600/10 text-emerald-600 border-emerald-500/20 hover:bg-emerald-600/10' : 'bg-muted text-muted-foreground hover:bg-muted'}>
-                          {img.featured ? 'Featured' : 'Standard'}
-                        </Badge>
-                      </td>
-                      <td className="p-4 text-right">
-                        <div className="flex justify-end gap-2">
-                          <Button size="sm" variant="outline" className="h-8 text-xs gap-1" onClick={() => window.open(img.url, '_blank')} disabled={deletingId === (img._id || img.id)}>
-                            <Eye className="w-3.5 h-3.5" /> View
-                          </Button>
-                          <Button size="sm" variant="ghost" className="h-8 text-xs text-destructive hover:text-destructive/80 gap-1" onClick={() => handleDelete(img._id || img.id)} disabled={deletingId === (img._id || img.id)}>
-                            {deletingId === (img._id || img.id) ? (
-                              'Deleting...'
-                            ) : (
-                              <>
-                                <Trash2 className="w-3.5 h-3.5" /> Delete
-                              </>
-                            )}
-                          </Button>
-                        </div>
-                      </td>
+          <>
+            {/* mobile cards */}
+            <div className="md:hidden space-y-3">
+              {images.map(img => (
+                <div key={img._id || img.id} className="p-3 border rounded-2xl bg-card shadow-sm flex gap-3">
+                  <div className="w-16 h-16 bg-muted rounded-lg overflow-hidden border border-border shadow-sm shrink-0">
+                    <img src={img.url} alt={img.alt || img.title || 'upload'} className="w-full h-full object-cover" />
+                  </div>
+                  <div className="min-w-0 flex-1 space-y-1.5">
+                    <div className="font-mono text-xs text-foreground truncate">{img.title || img.publicId || 'Untitled Upload'}</div>
+                    <div className="flex flex-wrap gap-1.5">
+                      <Badge variant="outline" className="bg-primary/5 text-primary border-primary/10 text-[10px]">
+                        {img.category || category}
+                      </Badge>
+                      <Badge className={`text-[10px] ${img.featured ? 'bg-emerald-600/10 text-emerald-600 border-emerald-500/20 hover:bg-emerald-600/10' : 'bg-muted text-muted-foreground hover:bg-muted'}`}>
+                        {img.featured ? 'Featured' : 'Standard'}
+                      </Badge>
+                    </div>
+                    <div className="flex gap-2 pt-0.5">
+                      <Button size="sm" variant="outline" className="h-8 text-xs gap-1 flex-1" onClick={() => window.open(img.url, '_blank')} disabled={deletingId === (img._id || img.id)}>
+                        <Eye className="w-3.5 h-3.5" /> View
+                      </Button>
+                      <Button size="sm" variant="outline" className="h-8 text-xs gap-1 flex-1 text-destructive hover:text-destructive/80" onClick={() => handleDelete(img._id || img.id)} disabled={deletingId === (img._id || img.id)}>
+                        {deletingId === (img._id || img.id) ? 'Deleting...' : (<><Trash2 className="w-3.5 h-3.5" /> Delete</>)}
+                      </Button>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* desktop table */}
+            <Card className="hidden md:block">
+              <CardContent className="overflow-x-auto p-0">
+                <table className="w-full text-sm border-collapse text-left">
+                  <thead>
+                    <tr className="border-b bg-muted/20 text-muted-foreground text-xs uppercase font-semibold">
+                      <th className="p-4 w-24">Thumbnail</th>
+                      <th className="p-4">Filename / Public ID</th>
+                      <th className="p-4">Category</th>
+                      <th className="p-4">Status</th>
+                      <th className="p-4 text-right">Actions</th>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
-            </CardContent>
-          </Card>
+                  </thead>
+                  <tbody className="divide-y">
+                    {images.map(img => (
+                      <tr key={img._id || img.id} className="hover:bg-muted/10 transition-colors">
+                        <td className="p-4">
+                          <div className="w-16 h-16 bg-muted rounded-lg overflow-hidden border border-border shadow-sm">
+                            <img src={img.url} alt={img.alt || img.title || 'upload'} className="w-full h-full object-cover" />
+                          </div>
+                        </td>
+                        <td className="p-4 font-mono text-xs text-foreground max-w-xs truncate">
+                          {img.title || img.publicId || 'Untitled Upload'}
+                        </td>
+                        <td className="p-4">
+                          <Badge variant="outline" className="bg-primary/5 text-primary border-primary/10 text-xs">
+                            {img.category || category}
+                          </Badge>
+                        </td>
+                        <td className="p-4">
+                          <Badge className={img.featured ? 'bg-emerald-600/10 text-emerald-600 border-emerald-500/20 hover:bg-emerald-600/10' : 'bg-muted text-muted-foreground hover:bg-muted'}>
+                            {img.featured ? 'Featured' : 'Standard'}
+                          </Badge>
+                        </td>
+                        <td className="p-4 text-right">
+                          <div className="flex justify-end gap-2">
+                            <Button size="sm" variant="outline" className="h-8 text-xs gap-1" onClick={() => window.open(img.url, '_blank')} disabled={deletingId === (img._id || img.id)}>
+                              <Eye className="w-3.5 h-3.5" /> View
+                            </Button>
+                            <Button size="sm" variant="ghost" className="h-8 text-xs text-destructive hover:text-destructive/80 gap-1" onClick={() => handleDelete(img._id || img.id)} disabled={deletingId === (img._id || img.id)}>
+                              {deletingId === (img._id || img.id) ? (
+                                'Deleting...'
+                              ) : (
+                                <>
+                                  <Trash2 className="w-3.5 h-3.5" /> Delete
+                                </>
+                              )}
+                            </Button>
+                          </div>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </CardContent>
+            </Card>
+          </>
         )}
       </div>
     </div>

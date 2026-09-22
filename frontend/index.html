@@ -5,16 +5,48 @@
     <link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32.png" />
     <link rel="icon" type="image/png" sizes="16x16" href="/icons/favicon-16.png" />
     <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
-    <meta name="theme-color" content="#0ea5e9" />
+    <meta name="theme-color" content="#ffffff" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <!-- iOS home-screen install support (Android/Chrome read these from the web app manifest instead) -->
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="default" />
     <meta name="apple-mobile-web-app-title" content="Pathfinder" />
     <title>Pathfinder</title>
+    <style>
+      /* Shown immediately on launch, before the JS bundle loads/parses, so the
+         home-screen app never shows a blank flash — this is what iOS paints
+         first when opened from "Add to Home Screen". Removed by main.jsx once
+         React has mounted. */
+      #app-splash {
+        position: fixed;
+        inset: 0;
+        z-index: 9999;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #ffffff;
+        transition: opacity 0.25s ease;
+      }
+      #app-splash img {
+        width: 76px;
+        height: 76px;
+        border-radius: 20px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        animation: app-splash-pulse 1.4s ease-in-out infinite;
+      }
+      @keyframes app-splash-pulse {
+        0%, 100% { opacity: 1; transform: scale(1); }
+        50% { opacity: 0.65; transform: scale(0.94); }
+      }
+      #app-splash.app-splash-hidden {
+        opacity: 0;
+        pointer-events: none;
+      }
+    </style>
   </head>
   <body>
     <div id="root"></div>
+    <div id="app-splash"><img src="/icons/icon-192.png" alt="" /></div>
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>

@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react'
-import { Calendar, Plus, Edit, Trash2, Users, FileText, Phone, Mail, User, Info, Upload, Image } from 'lucide-react'
+import { Calendar, Plus, Edit, Trash2, Users, FileText, Phone, Mail, User, Info, Upload, Image, X } from 'lucide-react'
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
 import { Badge } from '@/components/ui/badge'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import Loader from '@/components/ui/loader'
 import client, { apiFetch } from '@/lib/api'
 import { toast } from 'sonner'
@@ -227,7 +228,7 @@ export default function AdminEvents() {
         </div>
         
         {/* Toggle buttons */}
-        <div className="flex items-center gap-2">
+        <div className="flex flex-wrap items-center gap-2">
           <div className="flex bg-muted p-1 rounded-lg border">
             <button
               onClick={() => setActiveTab('events')}
@@ -259,73 +260,126 @@ export default function AdminEvents() {
         <div className="flex justify-center py-20"><Loader /></div>
       ) : activeTab === 'events' ? (
         /* EVENTS LIST PANEL */
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-lg">All Workshops & Outreach Campaigns</CardTitle>
-            <CardDescription className="text-xs">Direct database CRUD of dynamic and past events.</CardDescription>
-          </CardHeader>
-          <CardContent className="overflow-x-auto p-0">
-            {events.length === 0 ? (
-              <div className="p-8 text-center text-sm text-muted">No events found in the database.</div>
-            ) : (
-              <table className="w-full text-sm border-collapse text-left">
-                <thead>
-                  <tr className="border-b bg-muted/20 text-muted-foreground text-xs uppercase font-semibold">
-                    <th className="p-4">Title</th>
-                    <th className="p-4">Category</th>
-                    <th className="p-4">Schedule</th>
-                    <th className="p-4">Location</th>
-                    <th className="p-4">Type</th>
-                    <th className="p-4 text-right">Actions</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y">
-                  {events.map((e) => (
-                    <tr key={e._id} className="hover:bg-muted/10 transition-colors">
-                      <td className="p-4 font-semibold text-foreground max-w-xs truncate">{e.title}</td>
-                      <td className="p-4">
-                        <Badge variant="secondary" className="bg-primary/5 text-primary border-primary/10">
-                          {e.category}
-                        </Badge>
-                      </td>
-                      <td className="p-4 text-xs">
-                        <div className="font-medium text-foreground">{e.date}</div>
-                        {e.time && <div className="text-muted-foreground mt-0.5">{e.time}</div>}
-                      </td>
-                      <td className="p-4 text-xs max-w-[150px] truncate">{e.location}</td>
-                      <td className="p-4">
-                        <Badge className={e.type === 'upcoming' ? 'bg-emerald-600/10 text-emerald-600 hover:bg-emerald-600/10' : 'bg-muted text-muted-foreground hover:bg-muted'}>
-                          {e.type}
-                        </Badge>
-                      </td>
-                      <td className="p-4 text-right">
-                        <div className="flex justify-end gap-1.5">
-                          <Button onClick={() => handleEditClick(e)} variant="ghost" size="icon" className="w-8 h-8 rounded-full text-foreground hover:text-primary">
-                            <Edit className="w-4 h-4" />
-                          </Button>
-                          <Button onClick={() => handleDeleteClick(e._id, e.title)} variant="ghost" size="icon" className="w-8 h-8 rounded-full text-destructive hover:text-destructive/80">
-                            <Trash2 className="w-4 h-4" />
-                          </Button>
-                        </div>
-                      </td>
+        events.length === 0 ? (
+          <Card><CardContent className="p-8 text-center text-sm text-muted">No events found in the database.</CardContent></Card>
+        ) : (
+          <>
+            {/* mobile cards */}
+            <div className="md:hidden space-y-3">
+              {events.map((e) => (
+                <div key={e._id} className="p-4 border rounded-2xl bg-card shadow-sm space-y-2">
+                  <div className="flex items-start justify-between gap-2">
+                    <div className="font-semibold text-foreground min-w-0 truncate">{e.title}</div>
+                    <Badge className={`shrink-0 text-[10px] ${e.type === 'upcoming' ? 'bg-emerald-600/10 text-emerald-600 hover:bg-emerald-600/10' : 'bg-muted text-muted-foreground hover:bg-muted'}`}>
+                      {e.type}
+                    </Badge>
+                  </div>
+                  <Badge variant="secondary" className="bg-primary/5 text-primary border-primary/10 text-xs">
+                    {e.category}
+                  </Badge>
+                  <div className="text-xs text-muted-foreground">
+                    <div className="font-medium text-foreground">{e.date}{e.time ? ` · ${e.time}` : ''}</div>
+                    <div className="truncate mt-0.5">{e.location}</div>
+                  </div>
+                  <div className="flex gap-2 pt-1 border-t">
+                    <Button onClick={() => handleEditClick(e)} variant="outline" size="sm" className="h-9 text-xs flex-1 mt-2 gap-1.5">
+                      <Edit className="w-3.5 h-3.5" /> Edit
+                    </Button>
+                    <Button onClick={() => handleDeleteClick(e._id, e.title)} variant="outline" size="sm" className="h-9 text-xs flex-1 mt-2 gap-1.5 text-destructive hover:text-destructive/80">
+                      <Trash2 className="w-3.5 h-3.5" /> Delete
+                    </Button>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* desktop table */}
+            <Card className="hidden md:block">
+              <CardHeader>
+                <CardTitle className="text-lg">All Workshops & Outreach Campaigns</CardTitle>
+                <CardDescription className="text-xs">Direct database CRUD of dynamic and past events.</CardDescription>
+              </CardHeader>
+              <CardContent className="overflow-x-auto p-0">
+                <table className="w-full text-sm border-collapse text-left">
+                  <thead>
+                    <tr className="border-b bg-muted/20 text-muted-foreground text-xs uppercase font-semibold">
+                      <th className="p-4">Title</th>
+                      <th className="p-4">Category</th>
+                      <th className="p-4">Schedule</th>
+                      <th className="p-4">Location</th>
+                      <th className="p-4">Type</th>
+                      <th className="p-4 text-right">Actions</th>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
-            )}
-          </CardContent>
-        </Card>
+                  </thead>
+                  <tbody className="divide-y">
+                    {events.map((e) => (
+                      <tr key={e._id} className="hover:bg-muted/10 transition-colors">
+                        <td className="p-4 font-semibold text-foreground max-w-xs truncate">{e.title}</td>
+                        <td className="p-4">
+                          <Badge variant="secondary" className="bg-primary/5 text-primary border-primary/10">
+                            {e.category}
+                          </Badge>
+                        </td>
+                        <td className="p-4 text-xs">
+                          <div className="font-medium text-foreground">{e.date}</div>
+                          {e.time && <div className="text-muted-foreground mt-0.5">{e.time}</div>}
+                        </td>
+                        <td className="p-4 text-xs max-w-[150px] truncate">{e.location}</td>
+                        <td className="p-4">
+                          <Badge className={e.type === 'upcoming' ? 'bg-emerald-600/10 text-emerald-600 hover:bg-emerald-600/10' : 'bg-muted text-muted-foreground hover:bg-muted'}>
+                            {e.type}
+                          </Badge>
+                        </td>
+                        <td className="p-4 text-right">
+                          <div className="flex justify-end gap-1.5">
+                            <Button onClick={() => handleEditClick(e)} variant="ghost" size="icon" className="w-8 h-8 rounded-full text-foreground hover:text-primary">
+                              <Edit className="w-4 h-4" />
+                            </Button>
+                            <Button onClick={() => handleDeleteClick(e._id, e.title)} variant="ghost" size="icon" className="w-8 h-8 rounded-full text-destructive hover:text-destructive/80">
+                              <Trash2 className="w-4 h-4" />
+                            </Button>
+                          </div>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </CardContent>
+            </Card>
+          </>
+        )
+      ) : /* RSVPS LIST PANEL */
+      rsvps.length === 0 ? (
+        <Card><CardContent className="p-8 text-center text-sm text-muted">No guest registrations found.</CardContent></Card>
       ) : (
-        /* RSVPS LIST PANEL */
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-lg">Event Attendees & Registrations</CardTitle>
-            <CardDescription className="text-xs">View guest details and registrations saved in the database.</CardDescription>
-          </CardHeader>
-          <CardContent className="overflow-x-auto p-0">
-            {rsvps.length === 0 ? (
-              <div className="p-8 text-center text-sm text-muted">No guest registrations found.</div>
-            ) : (
+        <>
+          {/* mobile cards */}
+          <div className="md:hidden space-y-3">
+            {rsvps.map((r) => (
+              <div key={r._id} className="p-4 border rounded-2xl bg-card shadow-sm space-y-2">
+                <div className="font-semibold text-foreground truncate">{getEventTitle(r.eventId)}</div>
+                <div className="text-xs space-y-1">
+                  <div className="font-semibold text-foreground flex items-center gap-1"><User className="w-3 h-3 text-primary" /> {r.name}</div>
+                  <div className="text-muted-foreground flex items-center gap-1"><Mail className="w-3 h-3 text-muted-foreground" /> {r.email}</div>
+                  <div className="font-medium text-foreground flex items-center gap-1"><Phone className="w-3.5 h-3.5 text-primary" /> {r.phone}</div>
+                </div>
+                {r.notes && (
+                  <div className="text-xs leading-relaxed text-muted-foreground italic break-words border-t pt-2">"{r.notes}"</div>
+                )}
+                <div className="text-[11px] text-muted-foreground">
+                  Registered {new Date(r.createdAt).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })}
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* desktop table */}
+          <Card className="hidden md:block">
+            <CardHeader>
+              <CardTitle className="text-lg">Event Attendees & Registrations</CardTitle>
+              <CardDescription className="text-xs">View guest details and registrations saved in the database.</CardDescription>
+            </CardHeader>
+            <CardContent className="overflow-x-auto p-0">
               <table className="w-full text-sm border-collapse text-left">
                 <thead>
                   <tr className="border-b bg-muted/20 text-muted-foreground text-xs uppercase font-semibold">
@@ -359,9 +413,9 @@ export default function AdminEvents() {
                   ))}
                 </tbody>
               </table>
-            )}
-          </CardContent>
-        </Card>
+            </CardContent>
+          </Card>
+        </>
       )}
 
       {/* EVENT ADD / EDIT MODAL */}
@@ -371,7 +425,7 @@ export default function AdminEvents() {
             <div className="flex items-center justify-between mb-4 flex-none border-b pb-3">
               <h3 className="text-lg font-bold">{editingEvent ? 'Edit Event & Workshop' : 'Create New Event'}</h3>
               <button onClick={() => setModalOpen(false)} className="p-1 rounded-full hover:bg-muted text-muted-foreground">
-                <Trash2 className="w-5 h-5 rotate-45" />
+                <X className="w-5 h-5" />
               </button>
             </div>
 
@@ -403,15 +457,15 @@ export default function AdminEvents() {
 
                 <div className="space-y-2">
                   <Label htmlFor="ev-type" className="text-xs">Event Type <span className="text-destructive">*</span></Label>
-                  <select
-                    id="ev-type"
-                    value={formData.type}
-                    onChange={(e) => setFormData({ ...formData, type: e.target.value })}
-                    className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary disabled:cursor-not-allowed disabled:opacity-50"
-                  >
-                    <option value="upcoming">Upcoming (Booking Open)</option>
-                    <option value="past">Past Highlights (Finished)</option>
-                  </select>
+                  <Select value={formData.type} onValueChange={(v) => setFormData({ ...formData, type: v })}>
+                    <SelectTrigger id="ev-type" className="w-full h-9 text-sm">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="upcoming">Upcoming (Booking Open)</SelectItem>
+                      <SelectItem value="past">Past Highlights (Finished)</SelectItem>
+                    </SelectContent>
+                  </Select>
                 </div>
 
                 <div className="space-y-2">

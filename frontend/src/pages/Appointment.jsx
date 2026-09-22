@@ -7,6 +7,7 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Button } from '@/components/ui/button'
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import Loader from '@/components/ui/loader'
 
 const DEFAULT_SERVICES = [
@@ -196,19 +197,18 @@ export default function Appointment() {
             <div className="grid sm:grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label htmlFor="service">Select Service Package</Label>
-                <select
-                  name="service"
-                  id="service"
-                  value={form.service}
-                  onChange={handleChange}
-                  className="w-full flex h-9 rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
-                >
-                  {services.map(s => (
-                    <option key={s._id} value={s._id} className="bg-card text-foreground">
-                      {s.title || s.name} (₹{s.price}/session)
-                    </option>
-                  ))}
-                </select>
+                <Select value={form.service} onValueChange={(v) => setForm(prev => ({ ...prev, service: v }))}>
+                  <SelectTrigger id="service" className="w-full h-9 text-sm">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {services.map(s => (
+                      <SelectItem key={s._id} value={s._id}>
+                        {s.title || s.name} (₹{s.price}/session)
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
               </div>
 
               <div className="space-y-2">
@@ -233,19 +233,16 @@ export default function Appointment() {
 
               <div className="space-y-2">
                 <Label htmlFor="timeSlot">Preferred Time Slot</Label>
-                <select
-                  name="timeSlot"
-                  id="timeSlot"
-                  value={form.timeSlot}
-                  onChange={handleChange}
-                  className="w-full flex h-9 rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
-                >
-                  {TIME_SLOTS.map(slot => (
-                    <option key={slot} value={slot} className="bg-card text-foreground">
-                      {slot}
-                    </option>
-                  ))}
-                </select>
+                <Select value={form.timeSlot} onValueChange={(v) => setForm(prev => ({ ...prev, timeSlot: v }))}>
+                  <SelectTrigger id="timeSlot" className="w-full h-9 text-sm">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {TIME_SLOTS.map(slot => (
+                      <SelectItem key={slot} value={slot}>{slot}</SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
               </div>
             </div>
 

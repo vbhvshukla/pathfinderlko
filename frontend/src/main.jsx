@@ -17,6 +17,19 @@ createRoot(document.getElementById('root')).render(
   </StrictMode>,
 )
 
+// Fade out the static splash (see index.html) once React has actually painted,
+// instead of just after render() is called — double rAF waits for the browser
+// to complete a frame so the crossfade doesn't clip the first paint.
+const splash = document.getElementById('app-splash')
+if (splash) {
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      splash.classList.add('app-splash-hidden')
+      setTimeout(() => splash.remove(), 300)
+    })
+  })
+}
+
 // Dynamic Google Analytics 4 (GA4) Injection
 const gaId = import.meta.env.VITE_GA_ID
 if (gaId && typeof window !== 'undefined') {

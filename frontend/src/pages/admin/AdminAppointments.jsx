@@ -4,6 +4,7 @@ import { apiFetch } from '@/lib/api'
 import { Skeleton } from '@/components/ui/skeleton'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { toast } from 'sonner'
 
 const TIME_SLOTS = [
@@ -239,31 +240,31 @@ export default function AdminAppointments() {
 
               <div className="space-y-2">
                 <label className="text-sm font-semibold">Select Slot</label>
-                <select
-                  value={editForm.timeSlot}
-                  onChange={(e) => setEditForm({ ...editForm, timeSlot: e.target.value })}
-                  className="w-full flex h-9 rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
-                >
-                  {TIME_SLOTS.map((slot) => (
-                    <option key={slot} value={slot} className="bg-card text-foreground">
-                      {slot}
-                    </option>
-                  ))}
-                </select>
+                <Select value={editForm.timeSlot} onValueChange={(v) => setEditForm({ ...editForm, timeSlot: v })}>
+                  <SelectTrigger className="w-full h-9 text-sm">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {TIME_SLOTS.map((slot) => (
+                      <SelectItem key={slot} value={slot}>{slot}</SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
               </div>
 
               <div className="space-y-2">
                 <label className="text-sm font-semibold">Change Status</label>
-                <select
-                  value={editForm.status}
-                  onChange={(e) => setEditForm({ ...editForm, status: e.target.value })}
-                  className="w-full flex h-9 rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
-                >
-                  <option value="pending" className="bg-card text-foreground">Pending</option>
-                  <option value="confirmed" className="bg-card text-foreground">Confirmed</option>
-                  <option value="rescheduled" className="bg-card text-foreground">Rescheduled</option>
-                  <option value="cancelled" className="bg-card text-foreground">Cancelled</option>
-                </select>
+                <Select value={editForm.status} onValueChange={(v) => setEditForm({ ...editForm, status: v })}>
+                  <SelectTrigger className="w-full h-9 text-sm">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="pending">Pending</SelectItem>
+                    <SelectItem value="confirmed">Confirmed</SelectItem>
+                    <SelectItem value="rescheduled">Rescheduled</SelectItem>
+                    <SelectItem value="cancelled">Cancelled</SelectItem>
+                  </SelectContent>
+                </Select>
               </div>
 
               <div className="flex justify-end gap-3 pt-4 border-t">

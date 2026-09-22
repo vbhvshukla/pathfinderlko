@@ -50,7 +50,7 @@ export default function Contact() {
   }
 
   return (
-    <main className="container mx-auto px-6 py-12 text-left">
+    <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 text-left">
       <div className="max-w-md mx-auto">
         <Card className="w-full">
           <CardHeader>

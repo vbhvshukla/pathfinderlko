@@ -133,71 +133,110 @@ export default function AdminServices() {
         </Button>
       </div>
 
-      <Card>
-        <CardHeader>
-          <CardTitle className="text-lg">Configured Packages</CardTitle>
-          <CardDescription>Below is the list of counseling packages currently stored in the database.</CardDescription>
-        </CardHeader>
-        <CardContent className="p-0">
-          <div className="overflow-x-auto">
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Service Title</TableHead>
-                  <TableHead>Duration</TableHead>
-                  <TableHead>Sessions</TableHead>
-                  <TableHead>Price</TableHead>
-                  <TableHead>Status</TableHead>
-                  <TableHead className="text-right">Actions</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {services.length === 0 ? (
-                  <TableRow>
-                    <TableCell colSpan={6} className="text-center py-8 text-muted-foreground">
-                      <AlertCircle className="w-8 h-8 mx-auto mb-2 text-muted-foreground/50" />
-                      No services defined. Fallback default list is being shown on the booking page.
-                    </TableCell>
-                  </TableRow>
-                ) : (
-                  services.map((svc) => (
-                    <TableRow key={svc._id} className="hover:bg-muted/30 transition-colors">
-                      <TableCell>
-                        <div className="font-semibold text-foreground">{svc.title}</div>
-                        <div className="text-xs text-muted-foreground max-w-[280px] truncate" title={svc.description}>
-                          {svc.description || 'No description provided.'}
-                        </div>
-                      </TableCell>
-                      <TableCell className="text-xs">{svc.duration} mins</TableCell>
-                      <TableCell>{svc.sessions} Session(s)</TableCell>
-                      <TableCell className="font-medium">₹{svc.price}</TableCell>
-                      <TableCell>
-                        {svc.active ? (
-                          <Badge className="bg-emerald-500 text-white flex items-center gap-1 w-fit">
-                            <Check className="w-3 h-3" /> Active
-                          </Badge>
-                        ) : (
-                          <Badge variant="secondary" className="flex items-center gap-1 w-fit">
-                            <X className="w-3 h-3" /> Inactive
-                          </Badge>
-                        )}
-                      </TableCell>
-                      <TableCell className="text-right space-x-1">
-                        <Button variant="ghost" size="icon" onClick={() => handleOpenEdit(svc)}>
-                          <Edit2 className="w-4 h-4 text-muted-foreground hover:text-foreground" />
-                        </Button>
-                        <Button variant="ghost" size="icon" onClick={() => handleDelete(svc._id)}>
-                          <Trash2 className="w-4 h-4 text-destructive hover:text-destructive" />
-                        </Button>
-                      </TableCell>
-                    </TableRow>
-                  ))
-                )}
-              </TableBody>
-            </Table>
+      {services.length === 0 ? (
+        <Card>
+          <CardContent className="text-center py-8 text-muted-foreground">
+            <AlertCircle className="w-8 h-8 mx-auto mb-2 text-muted-foreground/50" />
+            No services defined. Fallback default list is being shown on the booking page.
+          </CardContent>
+        </Card>
+      ) : (
+        <>
+          {/* mobile cards */}
+          <div className="md:hidden space-y-3">
+            {services.map((svc) => (
+              <div key={svc._id} className="p-4 border rounded-2xl bg-card shadow-sm space-y-3">
+                <div className="flex items-start justify-between gap-2">
+                  <div className="min-w-0">
+                    <div className="font-semibold text-foreground">{svc.title}</div>
+                    <div className="text-xs text-muted-foreground line-clamp-2 mt-0.5">{svc.description || 'No description provided.'}</div>
+                  </div>
+                  {svc.active ? (
+                    <Badge className="bg-emerald-500 text-white flex items-center gap-1 w-fit shrink-0">
+                      <Check className="w-3 h-3" /> Active
+                    </Badge>
+                  ) : (
+                    <Badge variant="secondary" className="flex items-center gap-1 w-fit shrink-0">
+                      <X className="w-3 h-3" /> Inactive
+                    </Badge>
+                  )}
+                </div>
+                <div className="flex flex-wrap gap-x-4 gap-y-1 text-xs text-muted-foreground">
+                  <span>{svc.duration} mins</span>
+                  <span>{svc.sessions} Session(s)</span>
+                  <span className="font-semibold text-foreground">₹{svc.price}</span>
+                </div>
+                <div className="flex gap-2 pt-1 border-t">
+                  <Button variant="outline" size="sm" className="h-9 text-xs flex-1 mt-2 gap-1.5" onClick={() => handleOpenEdit(svc)}>
+                    <Edit2 className="w-3.5 h-3.5" /> Edit
+                  </Button>
+                  <Button variant="outline" size="sm" className="h-9 text-xs flex-1 mt-2 gap-1.5 text-destructive hover:text-destructive/80" onClick={() => handleDelete(svc._id)}>
+                    <Trash2 className="w-3.5 h-3.5" /> Delete
+                  </Button>
+                </div>
+              </div>
+            ))}
           </div>
-        </CardContent>
-      </Card>
+
+          {/* desktop table */}
+          <Card className="hidden md:block">
+            <CardHeader>
+              <CardTitle className="text-lg">Configured Packages</CardTitle>
+              <CardDescription>Below is the list of counseling packages currently stored in the database.</CardDescription>
+            </CardHeader>
+            <CardContent className="p-0">
+              <div className="overflow-x-auto">
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead>Service Title</TableHead>
+                      <TableHead>Duration</TableHead>
+                      <TableHead>Sessions</TableHead>
+                      <TableHead>Price</TableHead>
+                      <TableHead>Status</TableHead>
+                      <TableHead className="text-right">Actions</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {services.map((svc) => (
+                      <TableRow key={svc._id} className="hover:bg-muted/30 transition-colors">
+                        <TableCell>
+                          <div className="font-semibold text-foreground">{svc.title}</div>
+                          <div className="text-xs text-muted-foreground max-w-[280px] truncate" title={svc.description}>
+                            {svc.description || 'No description provided.'}
+                          </div>
+                        </TableCell>
+                        <TableCell className="text-xs">{svc.duration} mins</TableCell>
+                        <TableCell>{svc.sessions} Session(s)</TableCell>
+                        <TableCell className="font-medium">₹{svc.price}</TableCell>
+                        <TableCell>
+                          {svc.active ? (
+                            <Badge className="bg-emerald-500 text-white flex items-center gap-1 w-fit">
+                              <Check className="w-3 h-3" /> Active
+                            </Badge>
+                          ) : (
+                            <Badge variant="secondary" className="flex items-center gap-1 w-fit">
+                              <X className="w-3 h-3" /> Inactive
+                            </Badge>
+                          )}
+                        </TableCell>
+                        <TableCell className="text-right space-x-1">
+                          <Button variant="ghost" size="icon" onClick={() => handleOpenEdit(svc)}>
+                            <Edit2 className="w-4 h-4 text-muted-foreground hover:text-foreground" />
+                          </Button>
+                          <Button variant="ghost" size="icon" onClick={() => handleDelete(svc._id)}>
+                            <Trash2 className="w-4 h-4 text-destructive hover:text-destructive" />
+                          </Button>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </div>
+            </CardContent>
+          </Card>
+        </>
+      )}
 
       {/* Add / Edit Modal */}
       {modalOpen && (

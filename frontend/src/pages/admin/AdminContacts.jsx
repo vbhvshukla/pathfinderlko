@@ -33,87 +33,50 @@ export default function AdminContacts() {
       <h1 className="text-2xl font-bold mb-4 flex items-center gap-2"><Mail className="w-6 h-6"/>Contact Messages</h1>
 
       {loading ? (
-        <div className="overflow-x-auto">
-          <table className="table-auto w-full border-collapse">
-            <thead>
-              <tr className="bg-muted/10">
-                <th className="text-left px-3 py-2 text-sm">Name</th>
-                <th className="text-left px-3 py-2 text-sm">Email</th>
-                <th className="text-left px-3 py-2 text-sm">Subject</th>
-                <th className="text-left px-3 py-2 text-sm">Message</th>
-                <th className="text-left px-3 py-2 text-sm">Contact</th>
-                <th className="text-left px-3 py-2 text-sm">Received</th>
-              </tr>
-            </thead>
-            <tbody>
-              {Array.from({ length: 6 }).map((_, i) => (
-                <tr key={i} className="border-t">
-                  <td className="px-3 py-3 align-top"><Skeleton className="h-4 w-24" /></td>
-                  <td className="px-3 py-3 align-top"><Skeleton className="h-4 w-32" /></td>
-                  <td className="px-3 py-3 align-top"><Skeleton className="h-4 w-20" /></td>
-                  <td className="px-3 py-3 align-top max-w-xl"><Skeleton className="h-4 w-full" /></td>
-                  <td className="px-3 py-3 align-top"><Skeleton className="h-4 w-20" /></td>
-                  <td className="px-3 py-3 align-top"><Skeleton className="h-4 w-40" /></td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+        <div className="space-y-3">
+          {Array.from({ length: 4 }).map((_, i) => (
+            <div key={i} className="p-4 border rounded-2xl bg-card space-y-2">
+              <Skeleton className="h-4 w-32" />
+              <Skeleton className="h-3 w-48" />
+              <Skeleton className="h-4 w-full" />
+            </div>
+          ))}
         </div>
       ) : messages.length === 0 ? (
         <div className="text-muted">No messages</div>
       ) : (
-        <div className="overflow-x-auto">
-          <table className="table-auto w-full border-collapse">
-            <thead>
-              <tr className="bg-muted/10">
-                <th className="text-left px-3 py-2 text-sm">Name</th>
-                <th className="text-left px-3 py-2 text-sm">Email</th>
-                <th className="text-left px-3 py-2 text-sm">Subject</th>
-                <th className="text-left px-3 py-2 text-sm">Message</th>
-                <th className="text-left px-3 py-2 text-sm">Contact</th>
-                <th className="text-left px-3 py-2 text-sm">Received</th>
-              </tr>
-            </thead>
-            <tbody>
-              {messages.map((m) => (
-                <tr key={m._id || m.id || m.email} className="border-t">
-                  <td className="px-3 py-3 align-top">
-                    <div className="font-semibold">{m.name}</div>
-                  </td>
-                  <td className="px-3 py-3 align-top">
-                    <div className="text-sm text-muted">{m.email}</div>
-                  </td>
-                  <td className="px-3 py-3 align-top">
-                    <div className="text-sm">{m.subject || '-'}</div>
-                  </td>
-                  <td className="px-3 py-3 align-top max-w-xl">
-                    <div className="text-sm break-words">{m.message}</div>
-                  </td>
-                  <td className="px-3 py-3 align-top">
-                    <div className="text-sm">{m.contactNumber || '-'}</div>
-                  </td>
-                  <td className="px-3 py-3 align-top">
-                    <div className="text-sm text-muted">{m.createdAt ? new Date(m.createdAt).toLocaleString() : ''}</div>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+        <div className="space-y-3">
+          {messages.map((m) => (
+            <div key={m._id || m.id || m.email} className="p-4 border rounded-2xl bg-card shadow-sm space-y-2">
+              <div className="flex flex-wrap items-start justify-between gap-2">
+                <div>
+                  <div className="font-semibold text-foreground">{m.name}</div>
+                  <div className="text-xs text-muted-foreground">{m.email}</div>
+                </div>
+                <div className="text-xs text-muted-foreground text-right shrink-0">
+                  {m.createdAt ? new Date(m.createdAt).toLocaleString() : ''}
+                </div>
+              </div>
+              {m.subject && <div className="text-sm font-medium">{m.subject}</div>}
+              <div className="text-sm text-foreground/90 break-words">{m.message}</div>
+              {m.contactNumber && <div className="text-xs text-muted-foreground">Contact: {m.contactNumber}</div>}
+            </div>
+          ))}
         </div>
       )}
       <div className="mt-4 flex flex-col sm:flex-row items-center justify-between gap-3">
         <div className="text-sm text-muted">{loading ? <Skeleton className="h-4 w-48" /> : `Showing page ${page} of ${pages} — ${total} messages`}</div>
         <div className="flex flex-wrap items-center gap-2">
-          <button className="px-3 py-1 border rounded disabled:opacity-50" onClick={() => setPage(p => Math.max(1, p - 1))} disabled={page <= 1}>Prev</button>
+          <button className="min-w-[44px] min-h-[44px] px-3 py-2 border rounded-lg disabled:opacity-50 active:bg-accent/10" onClick={() => setPage(p => Math.max(1, p - 1))} disabled={page <= 1}>Prev</button>
           {Array.from({ length: pages }).slice(0, 10).map((_, i) => {
             const p = i + 1
             return (
-              <button key={p} onClick={() => setPage(p)} className={`px-3 py-1 rounded ${p === page ? 'bg-primary text-primary-foreground' : 'border'}`}>
+              <button key={p} onClick={() => setPage(p)} className={`min-w-[44px] min-h-[44px] px-3 py-2 rounded-lg ${p === page ? 'bg-primary text-primary-foreground' : 'border active:bg-accent/10'}`}>
                 {p}
               </button>
             )
           })}
-          <button className="px-3 py-1 border rounded disabled:opacity-50" onClick={() => setPage(p => Math.min(pages, p + 1))} disabled={page >= pages}>Next</button>
+          <button className="min-w-[44px] min-h-[44px] px-3 py-2 border rounded-lg disabled:opacity-50 active:bg-accent/10" onClick={() => setPage(p => Math.min(pages, p + 1))} disabled={page >= pages}>Next</button>
         </div>
       </div>
     </div>

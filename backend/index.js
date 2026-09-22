@@ -27,7 +27,7 @@ try {
 }
 try {
   const rateLimit = require('express-rate-limit');
-  app.use(rateLimit({ windowMs: 15 * 60 * 1000, max: 100 }));
+  app.use(rateLimit({ windowMs: 15 * 60 * 1000, max: 200 }));
 } catch (e) {
   console.warn('express-rate-limit not installed; consider adding it to mitigate brute force');
 }
@@ -61,7 +61,7 @@ app.use(verifyCsrf);
 //   }
 // }
 
-;(async () => {
+; (async () => {
   try {
     await connectDB()
     // await seedAdminUser()
@@ -81,17 +81,17 @@ if (!process.env.JWT_SECRET) {
 app.get('/api/health', (req, res) => res.json({ status: 'ok' }));
 
 // Mount routers (they export an Express router)
-try { app.use('/api/auth', require('./src/routes/auth.routes')); } catch (e) {}
-try { app.use('/api/appointments', require('./src/routes/appointment.routes')); } catch (e) {}
-try { app.use('/api/contact', require('./src/routes/contact.routes')); } catch (e) {}
-try { app.use('/api/posts', require('./src/routes/post.routes')); } catch (e) {}
-try { app.use('/api/testimonials', require('./src/routes/testimonial.routes')); } catch (e) {}
-try { app.use('/api/uploads', require('./src/routes/upload.routes')); } catch (e) {}
-try { app.use('/api/magazines', require('./src/routes/magazine.routes')); } catch (e) {}
-try { app.use('/api/services', require('./src/routes/service.routes')); } catch (e) {}
-try { app.use('/api/rsvp', require('./src/routes/rsvp.routes')); } catch (e) {}
-try { app.use('/api/events', require('./src/routes/event.routes')); } catch (e) {}
-try { app.use('/api/users', require('./src/routes/user.routes')); } catch (e) {}
+try { app.use('/api/auth', require('./src/routes/auth.routes')); } catch (e) { }
+try { app.use('/api/appointments', require('./src/routes/appointment.routes')); } catch (e) { }
+try { app.use('/api/contact', require('./src/routes/contact.routes')); } catch (e) { }
+try { app.use('/api/posts', require('./src/routes/post.routes')); } catch (e) { }
+try { app.use('/api/testimonials', require('./src/routes/testimonial.routes')); } catch (e) { }
+try { app.use('/api/uploads', require('./src/routes/upload.routes')); } catch (e) { }
+try { app.use('/api/magazines', require('./src/routes/magazine.routes')); } catch (e) { }
+try { app.use('/api/services', require('./src/routes/service.routes')); } catch (e) { }
+try { app.use('/api/rsvp', require('./src/routes/rsvp.routes')); } catch (e) { }
+try { app.use('/api/events', require('./src/routes/event.routes')); } catch (e) { }
+try { app.use('/api/users', require('./src/routes/user.routes')); } catch (e) { }
 
 // Fallback
 app.use((req, res) => res.status(404).json({ error: 'Not found' }));

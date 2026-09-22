@@ -26,18 +26,26 @@ export default function AdminDashboard() {
     <div>
       <h1 className="text-2xl font-bold mb-4">Dashboard</h1>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        <div className="p-4 border rounded flex items-center gap-4">
-          {loading ? <Skeleton className="w-8 h-8" /> : <Calendar className="w-8 h-8 text-muted" />}
+        <div className="p-5 border rounded-2xl bg-card shadow-sm flex items-center gap-4">
+          {loading ? <Skeleton className="w-10 h-10 rounded-xl" /> : (
+            <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center shrink-0">
+              <Calendar className="w-5 h-5 text-primary" />
+            </div>
+          )}
           <div>
-            <div className="text-sm text-muted">Appointments</div>
+            <div className="text-sm text-muted-foreground">Appointments</div>
             <div className="text-3xl font-semibold">{loading ? <Skeleton className="h-8 w-20" /> : counts.appointments}</div>
           </div>
         </div>
 
-        <div className="p-4 border rounded flex items-center gap-4">
-          {loading ? <Skeleton className="w-8 h-8" /> : <Mail className="w-8 h-8 text-muted" />}
+        <div className="p-5 border rounded-2xl bg-card shadow-sm flex items-center gap-4">
+          {loading ? <Skeleton className="w-10 h-10 rounded-xl" /> : (
+            <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center shrink-0">
+              <Mail className="w-5 h-5 text-primary" />
+            </div>
+          )}
           <div>
-            <div className="text-sm text-muted">Contact Messages</div>
+            <div className="text-sm text-muted-foreground">Contact Messages</div>
             <div className="text-3xl font-semibold">{loading ? <Skeleton className="h-8 w-20" /> : counts.contacts}</div>
           </div>
         </div>

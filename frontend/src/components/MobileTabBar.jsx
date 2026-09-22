@@ -51,8 +51,13 @@ export default function MobileTabBar() {
   }
 
   const tabClass = (active) =>
-    `flex flex-col items-center justify-center gap-1 flex-1 h-full text-[11px] font-medium transition-colors active:scale-95 ${
+    `flex flex-col items-center justify-center gap-0.5 flex-1 h-full text-[11px] font-medium transition-colors active:scale-95 ${
       active ? 'text-primary' : 'text-muted-foreground'
+    }`
+
+  const iconPillClass = (active) =>
+    `flex items-center justify-center w-10 h-6 rounded-full transition-colors ${
+      active ? 'bg-primary/10' : ''
     }`
 
   const moreLinks = [
@@ -75,11 +80,15 @@ export default function MobileTabBar() {
       >
         <div className="flex items-stretch h-14 max-w-md mx-auto px-1">
           <Link to="/" className={tabClass(isActive('/'))}>
-            <Home className="w-5 h-5" />
+            <span className={iconPillClass(isActive('/'))}>
+              <Home className="w-5 h-5" strokeWidth={isActive('/') ? 2.4 : 2} />
+            </span>
             {t('nav_home')}
           </Link>
           <Link to="/services" className={tabClass(isActive('/services'))}>
-            <Briefcase className="w-5 h-5" />
+            <span className={iconPillClass(isActive('/services'))}>
+              <Briefcase className="w-5 h-5" strokeWidth={isActive('/services') ? 2.4 : 2} />
+            </span>
             {t('nav_services')}
           </Link>
 
@@ -96,12 +105,16 @@ export default function MobileTabBar() {
           </div>
 
           <Link to="/blog" className={tabClass(isActive('/blog'))}>
-            <FileText className="w-5 h-5" />
+            <span className={iconPillClass(isActive('/blog'))}>
+              <FileText className="w-5 h-5" strokeWidth={isActive('/blog') ? 2.4 : 2} />
+            </span>
             {t('nav_blog')}
           </Link>
 
           <button onClick={() => setMoreOpen(true)} className={tabClass(moreOpen)}>
-            <Menu className="w-5 h-5" />
+            <span className={iconPillClass(moreOpen)}>
+              <Menu className="w-5 h-5" strokeWidth={moreOpen ? 2.4 : 2} />
+            </span>
             More
           </button>
         </div>

@@ -3,7 +3,7 @@ import { MessageCircle } from 'lucide-react'
 
 export default function WhatsAppButton() {
   return (
-    <div className="fixed bottom-20 md:bottom-6 right-4 sm:right-6 z-30 group flex flex-col items-end">
+    <div className="fixed bottom-[calc(3.5rem+env(safe-area-inset-bottom)+0.75rem)] md:bottom-6 right-4 sm:right-6 z-30 group flex flex-col items-end">
       {/* Tooltip speech bubble */}
       <div className="mb-2 bg-card border text-card-foreground text-xs font-medium px-3 py-1.5 rounded-xl shadow-lg opacity-0 translate-y-2 pointer-events-none group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 flex items-center gap-1.5">
         <span className="w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span>

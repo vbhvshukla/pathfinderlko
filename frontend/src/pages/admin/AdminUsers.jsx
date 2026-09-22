@@ -186,16 +186,87 @@ export default function AdminUsers() {
 
       {loading ? (
         <div className="flex justify-center py-20"><Loader /></div>
+      ) : filteredUsers.length === 0 ? (
+        <Card><CardContent className="p-8 text-center text-sm text-muted">No users found matching current filters.</CardContent></Card>
       ) : (
-        <Card>
-          <CardHeader className="pb-3">
-            <CardTitle className="text-lg">Registered Users Database</CardTitle>
-            <CardDescription className="text-xs">View all users registered on Pathfinder. Double-check roles to protect safety boundaries.</CardDescription>
-          </CardHeader>
-          <CardContent className="overflow-x-auto p-0">
-            {filteredUsers.length === 0 ? (
-              <div className="p-8 text-center text-sm text-muted">No users found matching current filters.</div>
-            ) : (
+        <>
+          {/* mobile cards */}
+          <div className="md:hidden space-y-3">
+            {filteredUsers.map((u) => {
+              const self = isSelf(u)
+              const uid = u._id || u.id
+              return (
+                <div key={uid} className={`p-4 border rounded-2xl bg-card shadow-sm space-y-3 ${self ? 'bg-primary/5 border-primary/20' : ''}`}>
+                  <div className="flex items-center gap-3">
+                    <div className="w-9 h-9 rounded-full bg-gradient-to-tr from-primary/15 to-primary/5 border border-primary/20 text-primary font-bold text-xs flex items-center justify-center shadow-sm shrink-0">
+                      {getInitials(u.name)}
+                    </div>
+                    <div className="min-w-0 flex-1">
+                      <div className="font-semibold text-foreground flex items-center gap-1.5 truncate">
+                        {u.name}
+                        {self && (
+                          <Badge className="bg-primary text-[10px] px-1.5 py-0.5 scale-90 border-none font-semibold hover:bg-primary shrink-0">You</Badge>
+                        )}
+                      </div>
+                      <div className="text-xs font-mono text-muted-foreground truncate">{u.email}</div>
+                    </div>
+                    <Badge
+                      className={`font-semibold text-[10px] shrink-0 border ${
+                        u.role === 'admin'
+                          ? 'bg-violet-600/10 text-violet-600 border-violet-600/20 hover:bg-violet-600/10'
+                          : 'bg-muted text-muted-foreground border-muted-foreground/10 hover:bg-muted'
+                      }`}
+                    >
+                      <span className="flex items-center gap-1">
+                        {u.role === 'admin' ? <Shield className="w-3 h-3" /> : <User className="w-3 h-3" />}
+                        {u.role}
+                      </span>
+                    </Badge>
+                  </div>
+                  <div className="text-xs text-muted-foreground flex items-center gap-1">
+                    <Calendar className="w-3.5 h-3.5" />
+                    Joined {u.createdAt ? new Date(u.createdAt).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' }) : 'N/A'}
+                  </div>
+                  <div className="flex gap-2 pt-1 border-t">
+                    <Button
+                      type="button"
+                      size="sm"
+                      variant="outline"
+                      onClick={() => handleToggleRole(u)}
+                      disabled={self || updatingId === uid}
+                      className={`h-9 text-xs gap-1.5 flex-1 mt-2 ${self ? 'opacity-40 cursor-not-allowed' : ''}`}
+                    >
+                      {updatingId === uid ? (
+                        <><Loader size={12} /> Updating...</>
+                      ) : u.role === 'admin' ? (
+                        <><ShieldAlert className="w-3.5 h-3.5 text-amber-500" /> Revoke</>
+                      ) : (
+                        <><Shield className="w-3.5 h-3.5 text-violet-600" /> Make Admin</>
+                      )}
+                    </Button>
+                    <Button
+                      type="button"
+                      size="sm"
+                      variant="outline"
+                      onClick={() => handleDeleteUser(u)}
+                      disabled={self || deletingId === uid}
+                      className={`h-9 text-xs flex-1 mt-2 text-destructive hover:text-destructive/80 ${self ? 'opacity-40 cursor-not-allowed' : ''}`}
+                    >
+                      {deletingId === uid ? 'Deleting...' : (<><Trash2 className="w-3.5 h-3.5" /> Delete</>)}
+                    </Button>
+                  </div>
+                </div>
+              )
+            })}
+          </div>
+
+          {/* desktop table */}
+          <Card className="hidden md:block">
+            <CardHeader className="pb-3">
+              <CardTitle className="text-lg">Registered Users Database</CardTitle>
+              <CardDescription className="text-xs">View all users registered on Pathfinder. Double-check roles to protect safety boundaries.</CardDescription>
+            </CardHeader>
+            <CardContent className="overflow-x-auto p-0">
               <table className="w-full text-sm border-collapse text-left">
                 <thead>
                   <tr className="border-b bg-muted/20 text-muted-foreground text-xs uppercase font-semibold">
@@ -307,9 +378,9 @@ export default function AdminUsers() {
                   })}
                 </tbody>
               </table>
-            )}
-          </CardContent>
-        </Card>
+            </CardContent>
+          </Card>
+        </>
       )}
     </div>
   )

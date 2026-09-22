@@ -80,12 +80,12 @@ export default function MagazineShelf({ magazines = [] }) {
   }
 
   return (
-    <section className="max-w-7xl mx-auto px-4 py-12">
+    <section className="max-w-7xl mx-auto px-4 py-12 overflow-x-hidden">
       <h2 className="text-2xl font-bold mb-6">Latest Magazines</h2>
 
       <div>
         <Carousel>
-          <CarouselPrevious />
+          <CarouselPrevious className="-left-2 md:-left-12" />
           <CarouselContent className="gap-6">
             {magazines.length === 0 ? (
               <div className="text-muted">No magazines yet.</div>
@@ -120,7 +120,7 @@ export default function MagazineShelf({ magazines = [] }) {
               ))
             )}
           </CarouselContent>
-          <CarouselNext />
+          <CarouselNext className="-right-2 md:-right-12" />
         </Carousel>
       </div>
 

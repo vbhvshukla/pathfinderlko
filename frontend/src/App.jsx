@@ -10,7 +10,6 @@ import MobileTabBar from './components/MobileTabBar'
 import NotFound from './pages/NotFound'
 import ErrorBoundary from './components/ErrorBoundary'
 import Loader from './components/ui/loader'
-import './App.css'
 import { Toaster } from './components/ui/sonner'
 
 // Route-level code splitting: everything except the landing page and 404 loads

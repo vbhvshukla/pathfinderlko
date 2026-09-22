@@ -38,27 +38,27 @@ const icons = {
 const services = [
   {
     title: 'Psychological Counselling',
-    desc: 'One-on-one counselling for mental wellness and emotional support.',
+    desc: 'One-on-one sessions with our counselling psychologists, from personal and de-addiction counselling to psychotherapy for stress, emotional issues, and mental wellness.',
   },
   {
     title: 'Career Counselling',
-    desc: 'Help choosing academic streams and planning careers after study.',
+    desc: 'Stream selection guidance and strategic planning — SWOT analysis and goal-setting to help students make informed academic and career decisions.',
   },
   {
     title: 'Personality Development',
-    desc: 'Training to build confidence, communication, and soft skills.',
+    desc: 'Self-discovery, effective communication, and confidence-building programs to help you respond quickly and carry a positive attitude.',
   },
   {
     title: 'Workshops & Seminars',
-    desc: 'Workshops on careers, personality, social issues, and gender sensitization.',
+    desc: 'Group workshops across Lucknow schools and colleges on career exploration, study strategies, societal wellness, social issues, and gender sensitization.',
   },
   {
     title: 'Family & Online Counselling',
-    desc: 'Family therapy and secure online counselling sessions.',
+    desc: 'Family counselling and secure online sessions, available whenever an in-person visit to our Lucknow centre isn’t possible.',
   },
   {
     title: 'Assessment & Testing',
-    desc: 'Psychological assessment and standardized testing for tailored recommendations.',
+    desc: 'Psychological assessment and standardized testing that inform the optimal, tailored counselling approach for each individual.',
   },
 ]
 

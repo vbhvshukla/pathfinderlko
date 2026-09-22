@@ -165,16 +165,56 @@ export default function AdminMagazines() {
 
       {loading ? (
         <div className="flex justify-center py-20"><Loader /></div>
+      ) : mags.length === 0 ? (
+        <Card><CardContent className="p-8 text-center text-sm text-muted">No magazines found. Upload your first publication.</CardContent></Card>
       ) : (
-        <Card>
-          <CardHeader className="pb-3">
-            <CardTitle className="text-lg">All Publications</CardTitle>
-            <CardDescription className="text-xs">Manage current live PDF catalogs and digital documents.</CardDescription>
-          </CardHeader>
-          <CardContent className="overflow-x-auto p-0">
-            {mags.length === 0 ? (
-              <div className="p-8 text-center text-sm text-muted">No magazines found. Upload your first publication.</div>
-            ) : (
+        <>
+          {/* mobile cards */}
+          <div className="md:hidden space-y-3">
+            {mags.map(m => (
+              <div key={m._id || m.id} className="p-3 border rounded-2xl bg-card shadow-sm flex gap-3">
+                <div className="w-14 h-20 bg-muted rounded overflow-hidden shadow-sm border border-border shrink-0">
+                  {m.imageUrl ? (
+                    <img src={m.imageUrl} alt={m.title} className="w-full h-full object-cover" />
+                  ) : (
+                    <div className="w-full h-full flex items-center justify-center text-[10px] text-muted-foreground text-center px-1">No Cover</div>
+                  )}
+                </div>
+                <div className="min-w-0 flex-1 space-y-1.5">
+                  <div className="font-semibold text-foreground flex items-center gap-1.5">
+                    <BookOpen className="w-4 h-4 text-primary shrink-0" />
+                    <span className="truncate">{m.title}</span>
+                  </div>
+                  <div className="flex flex-wrap items-center gap-1.5">
+                    <span className="text-xs text-muted-foreground">
+                      {m.publishedAt ? new Date(m.publishedAt).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' }) : 'N/A'}
+                    </span>
+                    <Badge className={`text-[10px] ${m.featured ? 'bg-amber-500/10 text-amber-600 border-amber-500/20 hover:bg-amber-500/10 font-medium' : 'bg-muted text-muted-foreground hover:bg-muted font-medium'}`}>
+                      {m.featured ? 'Featured' : 'Standard'}
+                    </Badge>
+                  </div>
+                  <div className="flex gap-2 pt-0.5">
+                    {(m._id || m.id) && (
+                      <Button type="button" size="sm" variant="outline" onClick={() => openPdf(m)} disabled={openingId === (m._id || m.id)} className="h-8 text-xs gap-1 flex-1">
+                        {openingId === (m._id || m.id) ? (<><Loader size={12} /> Opening...</>) : (<><ExternalLink className="w-3.5 h-3.5" /> View PDF</>)}
+                      </Button>
+                    )}
+                    <Button type="button" size="sm" variant="outline" onClick={() => handleDelete(m)} disabled={deletingId === (m._id || m.id)} className="h-8 text-xs flex-1 text-destructive hover:text-destructive/80">
+                      {deletingId === (m._id || m.id) ? 'Deleting...' : 'Delete'}
+                    </Button>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* desktop table */}
+          <Card className="hidden md:block">
+            <CardHeader className="pb-3">
+              <CardTitle className="text-lg">All Publications</CardTitle>
+              <CardDescription className="text-xs">Manage current live PDF catalogs and digital documents.</CardDescription>
+            </CardHeader>
+            <CardContent className="overflow-x-auto p-0">
               <table className="w-full text-sm border-collapse text-left">
                 <thead>
                   <tr className="border-b bg-muted/20 text-muted-foreground text-xs uppercase font-semibold">
@@ -249,9 +289,9 @@ export default function AdminMagazines() {
                   ))}
                 </tbody>
               </table>
-            )}
-          </CardContent>
-        </Card>
+            </CardContent>
+          </Card>
+        </>
       )}
 
       {/* UPLOAD MAGAZINE MODAL */}
