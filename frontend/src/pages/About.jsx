@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import SEO from '@/components/SEO'
 import {
   Compass,
   Target,
@@ -141,6 +142,23 @@ export default function About() {
 
   return (
     <main className="min-h-screen bg-background text-foreground overflow-hidden">
+      <SEO
+        title="About Us — Dr. Sandhya Dwivedi & Our Team"
+        description="Meet the team behind Pathfinder, a Lucknow NGO for psychological counselling and career guidance. Led by Dr. Sandhya Dwivedi, counselling psychologist with 20+ years of experience in Lucknow."
+        keywords="Dr. Sandhya Dwivedi, psychologist in Lucknow, counselling psychologist Lucknow, NGO in Lucknow, Pathfinder team, best NGO in Lucknow"
+        canonicalUrl="https://pathfinderlko.org/about"
+        structuredData={{
+          '@context': 'https://schema.org',
+          '@type': 'Person',
+          name: 'Dr. Sandhya Dwivedi',
+          jobTitle: 'Director & Chief Counselling Psychologist',
+          description: 'Counselling psychologist with over 20 years of experience in psychological counselling, career guidance, and mental wellness, based in Lucknow.',
+          worksFor: { '@type': 'Organization', name: 'Pathfinder' },
+          alumniOf: 'Psychology & Psychological Counselling',
+          address: { '@type': 'PostalAddress', addressLocality: 'Lucknow', addressRegion: 'Uttar Pradesh', addressCountry: 'IN' },
+          sameAs: ['https://www.linkedin.com/in/dr-sandhya-dwivedi-a073401b1/'],
+        }}
+      />
       {/* Decorative Blur Orbs */}
       <div className="absolute top-20 left-10 w-[40vw] h-[40vw] bg-sky-500/5 rounded-full filter blur-3xl pointer-events-none animate-pulse"></div>
       <div className="absolute bottom-20 right-10 w-[45vw] h-[45vw] bg-primary/5 rounded-full filter blur-3xl pointer-events-none animate-pulse"></div>
@@ -286,7 +304,7 @@ export default function About() {
                       <div className="w-full h-80 overflow-hidden relative bg-muted flex-none">
                         <img
                           src={member.img}
-                          alt={member.name}
+                          alt={`${member.name}, ${member.role} at Pathfinder NGO Lucknow`}
                           className="w-full h-full object-cover group-hover:scale-102 transition-transform duration-500"
                         />
                         <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-80 group-hover:opacity-90 transition-opacity duration-300"></div>

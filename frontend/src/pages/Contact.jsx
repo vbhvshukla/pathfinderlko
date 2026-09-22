@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import SEO from '@/components/SEO'
 import { apiFetch } from '@/lib/api'
 import { Button } from '@/components/ui/button'
 import {
@@ -51,6 +52,12 @@ export default function Contact() {
 
   return (
     <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 text-left">
+      <SEO
+        title="Contact Us"
+        description="Get in touch with Pathfinder, a trusted NGO in Lucknow for psychological counselling and career guidance. Visit our Lucknow centre or reach out online."
+        keywords="contact Pathfinder Lucknow, NGO in Lucknow, psychologist in Lucknow, counselling in Lucknow"
+        canonicalUrl="https://pathfinderlko.org/contact"
+      />
       <div className="max-w-md mx-auto">
         <Card className="w-full">
           <CardHeader>

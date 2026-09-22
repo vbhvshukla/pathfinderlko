@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 
-export default function SEO({ title, description, keywords, ogImage, canonicalUrl }) {
+export default function SEO({ title, description, keywords, ogImage, canonicalUrl, structuredData }) {
   useEffect(() => {
     // 1. Set title
     const fullTitle = title ? `${title} | Pathfinder NGO Lucknow` : 'Pathfinder NGO | Mental Health & Career Counseling Lucknow'
@@ -52,7 +52,24 @@ export default function SEO({ title, description, keywords, ogImage, canonicalUr
     }
     canonicalLink.setAttribute('href', canonicalUrl || window.location.href)
 
-  }, [title, description, keywords, ogImage, canonicalUrl])
+    // 6. Page-specific structured data (JSON-LD) — e.g. FAQPage, Person, BreadcrumbList.
+    // Site-wide entity data (NGO/LocalBusiness) lives statically in index.html instead,
+    // so it's present even before this effect runs.
+    const scriptId = 'page-structured-data'
+    let ldScript = document.getElementById(scriptId)
+    if (structuredData) {
+      if (!ldScript) {
+        ldScript = document.createElement('script')
+        ldScript.id = scriptId
+        ldScript.type = 'application/ld+json'
+        document.head.appendChild(ldScript)
+      }
+      ldScript.textContent = JSON.stringify(structuredData)
+    } else if (ldScript) {
+      ldScript.remove()
+    }
+
+  }, [title, description, keywords, ogImage, canonicalUrl, structuredData])
 
   return null
 }

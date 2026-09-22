@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import SEO from '@/components/SEO'
 import { Separator } from "@/components/ui/separator";
 import {
   Accordion,
@@ -46,6 +47,12 @@ export default function Services() {
     }, [])
   return (
     <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 text-left">
+            <SEO
+              title="Counselling Services in Lucknow"
+              description="Personal counselling, de-addiction support, career counselling, personality development and psychological testing in Lucknow. Book a session with Pathfinder's certified counsellors."
+              keywords="counselling in Lucknow, psychologist in Lucknow, career counselling Lucknow, de-addiction counselling Lucknow, personality development Lucknow, NGO in Lucknow"
+              canonicalUrl="https://pathfinderlko.org/services"
+            />
             <div className="md:flex md:items-start md:gap-8">
                 <div className="md:flex-1">
                     <section className="max-w-3xl mb-8 text-left">

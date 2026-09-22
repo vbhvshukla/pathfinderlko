@@ -28,17 +28,17 @@ export default function Hero() {
               <CarouselContent className="h-48 md:h-64">
                 <CarouselItem>
                   <div className="w-full h-48 md:h-64 bg-card rounded-lg shadow-lg overflow-hidden">
-                    <img src={img1} alt="slide 1" className="w-full h-full object-cover" />
+                    <img src={img1} alt="One-on-one psychological counselling session in Lucknow" className="w-full h-full object-cover" />
                   </div>
                 </CarouselItem>
                 <CarouselItem>
                   <div className="w-full h-48 md:h-64 bg-card rounded-lg shadow-lg overflow-hidden">
-                    <img src={img2} alt="slide 2" className="w-full h-full object-cover" />
+                    <img src={img2} alt="Client and counsellor during a therapy session at Pathfinder Lucknow" className="w-full h-full object-cover" />
                   </div>
                 </CarouselItem>
                 <CarouselItem>
                   <div className="w-full h-48 md:h-64 bg-card rounded-lg shadow-lg overflow-hidden">
-                    <img src={img3} alt="slide 3" className="w-full h-full object-cover" />
+                    <img src={img3} alt="Family counselling session with a Pathfinder psychologist in Lucknow" className="w-full h-full object-cover" />
                   </div>
                 </CarouselItem>
               </CarouselContent>
