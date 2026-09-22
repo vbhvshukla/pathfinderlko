@@ -13,11 +13,11 @@ import {
     CarouselItem
 } from "@/components/ui/carousel";
 import Autoplay from "embla-carousel-autoplay"
-import drpkd from "../assets/drpkd.png";
-import urvassi from "../assets/urvassi.png";
-import vaibhav from "../assets/vaibhav.png";
-import gargi from "../assets/gargi.png";
-import sandhya from "../assets/sandhya.png";
+import drpkd from "../assets/drpkd.webp";
+import urvassi from "../assets/urvassi.webp";
+import vaibhav from "../assets/vaibhav.webp";
+import gargi from "../assets/gargi.webp";
+import sandhya from "../assets/sandhya.webp";
 import client from '@/lib/api'
 import Loader from '@/components/ui/loader'
 import { Skeleton } from '@/components/ui/skeleton'

@@ -1,6 +1,6 @@
 import React from 'react'
 import { ShieldCheck } from 'lucide-react'
-import bhriguLogo from '../assets/Bhrigu.png'
+import bhriguLogo from '../assets/Bhrigu.webp'
 
 export default function Footer() {
   return (

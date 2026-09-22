@@ -65,11 +65,14 @@ export default function TestimonialsSection() {
     }
     setSubmitting(true)
     try {
-      await apiFetch('/testimonials', {
+      const res = await apiFetch('/testimonials', {
         method: 'POST',
         data: formData,
       })
-      toast.success('Testimonial submitted successfully! It will be visible once approved by an admin.')
+      toast.success('Thank you for sharing your story! It is now live.')
+      if (res && res.testimonial) {
+        setTestimonials((prev) => [res.testimonial, ...prev])
+      }
       setFormData({ name: '', content: '', rating: 5 })
       setModalOpen(false)
     } catch (err) {

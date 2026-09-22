@@ -19,14 +19,14 @@ router.post('/', verifyToken, async (req, res) => {
 		}
 
 		// 2. Check if user already registered for this event
-		const existingRSVP = await RSVP.findOne({ user: req.user._id, eventId });
+		const existingRSVP = await RSVP.findOne({ user: req.user.id, eventId });
 		if (existingRSVP) {
 			return res.status(400).json({ message: 'You have already registered for this event' });
 		}
 
 		// 3. Create new RSVP entry
 		const rsvp = new RSVP({
-			user: req.user._id,
+			user: req.user.id,
 			eventId: String(eventId),
 			name: req.user.name,
 			email: req.user.email,
@@ -50,7 +50,7 @@ router.post('/', verifyToken, async (req, res) => {
 // @access  Private
 router.get('/my-rsvps', verifyToken, async (req, res) => {
 	try {
-		const rsvps = await RSVP.find({ user: req.user._id }).sort({ createdAt: -1 });
+		const rsvps = await RSVP.find({ user: req.user.id }).sort({ createdAt: -1 });
 		return res.status(200).json({ rsvps });
 	} catch (err) {
 		console.error('Get RSVPs error:', err);

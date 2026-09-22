@@ -8,7 +8,6 @@ import { useTranslation } from 'react-i18next'
 
 export default function Navbar() {
   const { t, i18n } = useTranslation()
-  const [open, setOpen] = useState(false)
   const [user, setUser] = useState(null)
   const location = useLocation()
   const navigate = useNavigate()
@@ -17,13 +16,16 @@ export default function Navbar() {
   const { pathname } = location
   const isActive = (path) => pathname === path
   const isAdmin = user && (user.role === 'admin' || user.isAdmin || (Array.isArray(user.roles) && user.roles.includes('admin')))
+  // AdminLayout renders its own mobile header/drawer, and the public MobileTabBar
+  // covers navigation everywhere else, so this bar only needs to render on desktop
+  // widths while on an /admin route (it still shows fully on mobile elsewhere).
+  const isAdminRoute = pathname.startsWith('/admin')
 
   useEffect(() => {
     setUser(reduxUser)
   }, [reduxUser])
 
   async function handleLogout() {
-    setOpen(false)
     await dispatch(logoutAction())
     navigate('/')
   }
@@ -34,7 +36,7 @@ export default function Navbar() {
   }
 
   return (
-    <header className="w-full bg-background/70 backdrop-blur sticky top-0 z-40 border-b">
+    <header className={`w-full bg-background/70 backdrop-blur sticky top-0 z-40 border-b pt-[env(safe-area-inset-top)] ${isAdminRoute ? 'hidden md:block' : ''}`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center gap-4">
@@ -95,70 +97,14 @@ export default function Navbar() {
             </Button>
           </nav>
 
+          {/* Mobile: logo only here — primary nav lives in the bottom tab bar's "More" sheet */}
           <div className="md:hidden flex items-center gap-2">
-            {/* Language Switcher Mobile */}
-            <Button
-              variant="outline"
-              size="icon"
-              onClick={toggleLanguage}
-              className="w-8 h-8 rounded-full border-primary/20 text-primary hover:bg-primary/5"
-            >
-              <Globe className="w-4 h-4" />
-            </Button>
-
-            <button
-              aria-label="Toggle menu"
-              onClick={() => setOpen(!open)}
-              className="p-2 rounded-md hover:bg-accent/10 text-foreground"
-            >
-              <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                {open ? (
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                ) : (
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-                )}
-              </svg>
-            </button>
-          </div>
-        </div>
-      </div>
-
-      {open && (
-        <div className="md:hidden bg-background/95 border-t border-border animate-in slide-in-from-top-4 duration-200">
-          <div className="px-4 py-4 space-y-3">
-            {isAdmin ? (
-              <>
-                <Link to="/admin" onClick={() => setOpen(false)} className={`block flex items-center gap-2 ${isActive('/admin') ? 'text-primary font-semibold' : 'text-foreground'}`}><LayoutDashboard className="w-4 h-4"/>{t('nav_dashboard')}</Link>
-                {user ? (
-                  <button onClick={handleLogout} className="block text-left w-full flex items-center gap-2"><LogIn className="w-4 h-4"/>{t('nav_signout')}</button>
-                ) : null}
-              </>
-            ) : (
-              <>
-                {pathname !== '/' && (
-                  <Link to="/" onClick={() => setOpen(false)} className={`block flex items-center gap-2 ${isActive('/') ? 'text-primary font-semibold' : 'text-foreground'}`}><Home className="w-4 h-4"/>{t('nav_home')}</Link>
-                )}
-                <Link to="/about" onClick={() => setOpen(false)} className={`block flex items-center gap-2 ${isActive('/about') ? 'text-primary font-semibold' : 'text-foreground'}`}><Info className="w-4 h-4"/>{t('nav_about')}</Link>
-                <Link to="/services" onClick={() => setOpen(false)} className={`block flex items-center gap-2 ${isActive('/services') ? 'text-primary font-semibold' : 'text-foreground'}`}><Briefcase className="w-4 h-4"/>{t('nav_services')}</Link>
-                <Link to="/blog" onClick={() => setOpen(false)} className={`block flex items-center gap-2 ${isActive('/blog') ? 'text-primary font-semibold' : 'text-foreground'}`}><FileText className="w-4 h-4"/>{t('nav_blog')}</Link>
-                <Link to="/events" onClick={() => setOpen(false)} className={`block flex items-center gap-2 ${isActive('/events') ? 'text-primary font-semibold' : 'text-foreground'}`}><Calendar className="w-4 h-4"/>{t('nav_events')}</Link>
-                <Link to="/gallery" onClick={() => setOpen(false)} className={`block flex items-center gap-2 ${isActive('/gallery') ? 'text-primary font-semibold' : 'text-foreground'}`}><ImageIcon className="w-4 h-4"/>{t('nav_gallery') || 'Gallery'}</Link>
-                <Link to="/quiz" onClick={() => setOpen(false)} className={`block flex items-center gap-2 ${isActive('/quiz') ? 'text-primary font-semibold' : 'text-foreground'}`}><HeartPulse className="w-4 h-4"/>{t('nav_quiz')}</Link>
-                <Link to="/contact" onClick={() => setOpen(false)} className={`block flex items-center gap-2 ${isActive('/contact') ? 'text-primary font-semibold' : 'text-foreground'}`}><Mail className="w-4 h-4"/>{t('nav_contact')}</Link>
-                {user && (
-                  <Link to="/my-appointments" onClick={() => setOpen(false)} className={`block flex items-center gap-2 ${isActive('/my-appointments') ? 'text-primary font-semibold' : 'text-foreground'}`}><Calendar className="w-4 h-4"/>{t('nav_my_appointments')}</Link>
-                )}
-                <Link to="/appointments" onClick={() => setOpen(false)} className={`block flex items-center gap-2 ${isActive('/appointments') ? 'text-primary font-semibold' : 'text-foreground'}`}><Calendar className="w-4 h-4"/>{t('nav_book')}</Link>
-                {user ? (
-                  <button onClick={handleLogout} className="block text-left w-full flex items-center gap-2 text-destructive"><LogIn className="w-4 h-4"/>{t('nav_signout')}</button>
-                ) : (
-                  <Link to="/auth" onClick={() => setOpen(false)} className="block flex items-center gap-2"><LogIn className="w-4 h-4"/>{t('nav_signin')}</Link>
-                )}
-              </>
+            {isAdmin && (
+              <Link to="/admin" className="text-sm flex items-center gap-2 text-foreground"><LayoutDashboard className="w-4 h-4"/></Link>
             )}
           </div>
         </div>
-      )}
+      </div>
     </header>
   )
 }

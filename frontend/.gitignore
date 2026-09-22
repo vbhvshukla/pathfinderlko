@@ -22,3 +22,6 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Superseded pre-compression originals, kept locally as a safety net
+src/assets/_originals_unused/

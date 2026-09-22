@@ -22,11 +22,10 @@ import {
 } from '@/components/ui/carousel'
 import { Badge } from '@/components/ui/badge'
 
-import sandhya from '../assets/sandhya.png'
-import drpkd from '../assets/drpkd.png'
-import gargi from '../assets/gargi.png'
-import urvashi from '../assets/urvassi.png'
-import vaibhav from '../assets/vaibhav.png'
+import sandhya from '../assets/sandhya.webp'
+import drpkd from '../assets/drpkd.webp'
+import urvashi from '../assets/urvassi.webp'
+import vaibhav from '../assets/vaibhav.webp'
 
 
 
@@ -85,13 +84,6 @@ const TEAM = [
     qualifications: 'Ph.D. Mathematics',
     bio: 'A passionate academician and administrator who oversees the program logistics and educational outreach camps across Lucknow schools.',
     img: drpkd,
-  },
-  {
-    name: 'Ms. Gargi Dwivedi',
-    role: 'Content Writer | Software Analyst',
-    qualifications: 'Tech Analyst & Writer',
-    bio: 'Ensures that Pathfinder’s digital contents, self-assessments, and mental health tools remain accurate, approachable, and highly secure.',
-    img: gargi,
   },
   {
     name: 'Ms. Urvashi',

@@ -6,7 +6,7 @@ const { verifyToken, requireRole, optionalAuth } = require('../middlewares/auth.
 router.post('/', optionalAuth, createAppointment);
 router.get('/', verifyToken, requireRole('admin'), listAppointments);
 router.get('/my', verifyToken, getMyAppointments);
-router.get('/:id/receipt', downloadReceipt);
+router.get('/:id/receipt', optionalAuth, downloadReceipt);
 router.patch('/:id/status', verifyToken, requireRole('admin'), updateAppointment);
 router.patch('/:id', verifyToken, requireRole('admin'), updateAppointment);
 

@@ -18,7 +18,7 @@ const { verifyToken, requireRole } = require('../middlewares/auth.middleware');
 // Admin-only upload endpoint (file field: file, supports multiple file uploads up to 100)
 router.post('/', verifyToken, requireRole('admin'), upload.array('file', 100), uploadImage);
 
-// List uploads by category (admin)
+// List uploads by category (public: used by Gallery/Home/Services pages to render site imagery)
 router.get('/', listUploads);
 
 // Delete upload by id (admin)

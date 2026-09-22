@@ -10,6 +10,14 @@ import FAQ from '@/components/FAQ'
 import { apiFetch } from '@/lib/api'
 import client from '@/lib/api'
 import Loader from '@/components/ui/loader'
+import fallbackImg1 from '@/assets/1.webp'
+import fallbackImg2 from '@/assets/2.webp'
+import fallbackImg3 from '@/assets/3.webp'
+import fallbackImg4 from '@/assets/4.webp'
+import fallbackDrPkd from '@/assets/drpkdwivedi.jpg'
+import fallbackSandhya from '@/assets/sandhya.webp'
+import fallbackGargi from '@/assets/gargi.webp'
+import fallbackUrvassi from '@/assets/urvassi.webp'
 
 export default function Home() {
   const [magazines, setMagazines] = useState([])
@@ -67,14 +75,14 @@ export default function Home() {
         <section className="max-w-7xl mx-auto px-4 py-12 flex justify-center"><Loader /></section>
       ) : (
         <Gallery images={galleryImages.length ? galleryImages : [
-          '/src/assets/1.jpg',
-          '/src/assets/2.jpg',
-          '/src/assets/3.jpg',
-          '/src/assets/4.jpg',
-          '/src/assets/drpkdwivedi.jpg',
-          '/src/assets/sandhya.png',
-          '/src/assets/gargi.png',
-          '/src/assets/urvassi.png',
+          fallbackImg1,
+          fallbackImg2,
+          fallbackImg3,
+          fallbackImg4,
+          fallbackDrPkd,
+          fallbackSandhya,
+          fallbackGargi,
+          fallbackUrvassi,
         ]} />
       )}
 

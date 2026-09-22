@@ -4,12 +4,12 @@ const Testimonial = require('../models/testimonial.model');
 
 const { verifyToken, requireRole } = require('../middlewares/auth.middleware');
 
-// Submit testimonial (pending approval)
+// Submit testimonial (auto-approved)
 router.post('/', async (req, res) => {
 	try {
 		const { name, content, rating } = req.body;
 		if (!name || !content) return res.status(400).json({ message: 'Missing fields' });
-		const t = await Testimonial.create({ name, content, rating: rating ? Number(rating) : 5 });
+		const t = await Testimonial.create({ name, content, rating: rating ? Number(rating) : 5, approved: true });
 		return res.status(201).json({ testimonial: t });
 	} catch (err) {
 		console.error(err);

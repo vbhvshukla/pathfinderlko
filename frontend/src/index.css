@@ -118,17 +118,42 @@
   * {
     @apply border-border outline-ring/50;
     }
+  html {
+    /* Prevent the rubber-band/bounce scroll and the blue tap flash that make a
+       site feel like a browser tab instead of an installed app. */
+    overscroll-behavior-y: none;
+    -webkit-text-size-adjust: 100%;
+  }
   body {
     @apply bg-background text-foreground;
+    overflow-x: hidden;
+    -webkit-tap-highlight-color: transparent;
     }
 
     button:not(:disabled),
   [role="button"]:not(:disabled) {
     cursor: pointer;
   }
+
+  /* Native-feeling press feedback on every interactive control, unless a
+     component opts out with .no-tap-feedback. */
+  button:not(:disabled):not(.no-tap-feedback),
+  a:not(.no-tap-feedback),
+  [role="button"]:not(:disabled):not(.no-tap-feedback) {
+    transition: transform 0.1s ease;
+  }
+  button:not(:disabled):not(.no-tap-feedback):active,
+  a:not(.no-tap-feedback):active,
+  [role="button"]:not(:disabled):not(.no-tap-feedback):active {
+    transform: scale(0.97);
+  }
 }
 
 @layer utilities {
   .text-muted { color: var(--color-muted-foreground); }
   .bg-muted { background-color: var(--color-muted); }
+
+  /* Safe-area helpers for notches / home indicators when installed as a PWA */
+  .pt-safe { padding-top: env(safe-area-inset-top); }
+  .pb-safe { padding-bottom: env(safe-area-inset-bottom); }
 }

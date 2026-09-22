@@ -35,11 +35,5 @@ if (gaId && typeof window !== 'undefined') {
   document.head.appendChild(script2)
 }
 
-// PWA Service Worker Registration
-if ('serviceWorker' in navigator && typeof window !== 'undefined') {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('/sw.js')
-      .then((reg) => console.log('PWA Service Worker registered:', reg.scope))
-      .catch((err) => console.warn('PWA Service Worker registration failed:', err))
-  })
-}
+// PWA Service Worker: registered automatically by vite-plugin-pwa (see vite.config.js).
+// Handles its own update lifecycle via registerType: 'autoUpdate'.

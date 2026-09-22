@@ -138,6 +138,16 @@ async function downloadReceipt(req, res) {
 		const appt = await Appointment.findById(id);
 		if (!appt) return res.status(404).json({ message: 'Appointment not found' });
 
+		// Guest bookings have no userId, so the id itself is the access token for those.
+		// Appointments tied to a logged-in account may only be fetched by that account or an admin.
+		if (appt.userId) {
+			const isOwner = req.user && String(req.user.id) === String(appt.userId);
+			const isAdmin = req.user && req.user.role === 'admin';
+			if (!isOwner && !isAdmin) {
+				return res.status(403).json({ message: 'Not authorized to access this receipt' });
+			}
+		}
+
 		const pdfDoc = await PDFDocument.create();
 		const page = pdfDoc.addPage([600, 400]);
 		const { width, height } = page.getSize();

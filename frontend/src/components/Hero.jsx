@@ -1,9 +1,9 @@
 import React from 'react'
 import { Button } from '@/components/ui/button'
 import { Carousel, CarouselContent, CarouselItem } from '@/components/ui/carousel'
-import img1 from '../assets/1.jpg'
-import img2 from '../assets/2.jpg'
-import img3 from '../assets/3.jpg'
+import img1 from '../assets/1.webp'
+import img2 from '../assets/2.webp'
+import img3 from '../assets/3.webp'
 import Autoplay from "embla-carousel-autoplay"
 import { useTranslation } from 'react-i18next'
 
