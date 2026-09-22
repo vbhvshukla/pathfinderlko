@@ -9,7 +9,10 @@ export default defineConfig({
     react(),
     VitePWA({
       registerType: "autoUpdate",
-      injectRegister: "auto",
+      // Registered explicitly in main.jsx (via virtual:pwa-register) instead of the
+      // auto-injected script, so we can detect updates and prompt the user to reload —
+      // otherwise an already-installed home-screen app never learns a new version exists.
+      injectRegister: false,
       includeAssets: ["favicon-16.png", "favicon-32.png", "apple-touch-icon.png", "robots.txt"],
       manifest: {
         short_name: "Pathfinder",

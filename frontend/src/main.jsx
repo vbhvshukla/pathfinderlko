@@ -1,6 +1,8 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { BrowserRouter } from 'react-router-dom'
+import { registerSW } from 'virtual:pwa-register'
+import { toast } from 'sonner'
 import './index.css'
 import './i18n'
 import App from './App.jsx'
@@ -48,5 +50,23 @@ if (gaId && typeof window !== 'undefined') {
   document.head.appendChild(script2)
 }
 
-// PWA Service Worker: registered automatically by vite-plugin-pwa (see vite.config.js).
-// Handles its own update lifecycle via registerType: 'autoUpdate'.
+// PWA Service Worker. registerType:'autoUpdate' (vite.config.js) makes a new SW take
+// over quickly in the background, but an already-open tab/home-screen app never reloads
+// on its own — without this, installed users can be stuck on an old build indefinitely.
+// Also poll for updates hourly: a home-screen app can stay open/backgrounded for days
+// without a fresh navigation, which is normally what triggers the browser's own check.
+const updateSW = registerSW({
+  onNeedRefresh() {
+    toast('A new version of Pathfinder is available.', {
+      duration: Infinity,
+      action: {
+        label: 'Refresh',
+        onClick: () => updateSW(true),
+      },
+    })
+  },
+  onRegisteredSW(_url, registration) {
+    if (!registration) return
+    setInterval(() => registration.update(), 60 * 60 * 1000)
+  },
+})
