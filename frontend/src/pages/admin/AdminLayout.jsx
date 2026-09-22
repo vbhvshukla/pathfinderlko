@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Link, NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { logout as logoutAction, selectCurrentUser } from '@/store/authSlice'
-import { Home, Calendar, FileText, Image, BookOpen, Mail, Menu, Briefcase, Users, LogOut } from 'lucide-react'
+import { Home, Calendar, FileText, Image, BookOpen, Mail, Menu, Briefcase, Users, LogOut, MessageSquareHeart } from 'lucide-react'
 import {
   Sheet,
   SheetContent,
@@ -21,6 +21,7 @@ const NAV_ITEMS = [
   { to: '/admin/magazines', label: 'Magazines', icon: BookOpen },
   { to: '/admin/users', label: 'Users', icon: Users },
   { to: '/admin/contacts', label: 'Contact Messages', icon: Mail },
+  { to: '/admin/testimonials', label: 'Testimonials', icon: MessageSquareHeart },
 ]
 
 // Bottom tab bar shows the sections an admin checks daily; everything else
@@ -71,15 +72,11 @@ export default function AdminLayout() {
       <aside className="hidden md:flex w-64 border-r border-border p-4 text-left flex-col">
         <div className="text-xl font-bold mb-6 text-left">Welcome Back!</div>
         <nav className="space-y-1 flex-1">
-          <NavLink to="/admin" end className={linkClass}><Home className="inline-block mr-2 w-5 h-5"/>Dashboard</NavLink>
-          <NavLink to="/admin/appointments" className={linkClass}><Calendar className="inline-block mr-2 w-5 h-5"/>Appointments</NavLink>
-          <NavLink to="/admin/events" className={linkClass}><Calendar className="inline-block mr-2 w-5 h-5"/>Events & RSVPs</NavLink>
-          <NavLink to="/admin/services" className={linkClass}><Briefcase className="inline-block mr-2 w-5 h-5"/>Services</NavLink>
-          <NavLink to="/admin/blogs" className={linkClass}><FileText className="inline-block mr-2 w-5 h-5"/>Blogs</NavLink>
-          <NavLink to="/admin/images" className={linkClass}><Image className="inline-block mr-2 w-5 h-5"/>Images</NavLink>
-          <NavLink to="/admin/magazines" className={linkClass}><BookOpen className="inline-block mr-2 w-5 h-5"/>Magazines</NavLink>
-          <NavLink to="/admin/users" className={linkClass}><Users className="inline-block mr-2 w-5 h-5"/>Users</NavLink>
-          <NavLink to="/admin/contacts" className={linkClass}><Mail className="inline-block mr-2 w-5 h-5"/>Contact Messages</NavLink>
+          {NAV_ITEMS.map(({ to, end, label, icon: Icon }) => (
+            <NavLink key={to} to={to} end={end} className={linkClass}>
+              <Icon className="inline-block mr-2 w-5 h-5" />{label}
+            </NavLink>
+          ))}
         </nav>
         <button
           onClick={handleLogout}

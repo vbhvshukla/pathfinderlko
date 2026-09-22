@@ -38,6 +38,7 @@ const AdminContacts = lazy(() => import('./pages/admin/AdminContacts'))
 const AdminServices = lazy(() => import('./pages/admin/AdminServices'))
 const AdminEvents = lazy(() => import('./pages/admin/AdminEvents'))
 const AdminUsers = lazy(() => import('./pages/admin/AdminUsers'))
+const AdminTestimonials = lazy(() => import('./pages/admin/AdminTestimonials'))
 
 function PageFallback() {
   return (
@@ -104,6 +105,7 @@ function App() {
                   <Route path="services" element={<AdminServices />} />
                   <Route path="events" element={<AdminEvents />} />
                   <Route path="users" element={<AdminUsers />} />
+                  <Route path="testimonials" element={<AdminTestimonials />} />
                 </Route>
 
                 <Route path="*" element={<NotFound />} />
