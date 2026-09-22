@@ -67,12 +67,12 @@ export default function AdminBlogEditor({ post, onUpdated, children }) {
       <DialogTrigger asChild>
         {children || <Button>Edit</Button>}
       </DialogTrigger>
-      <DialogContent className="max-w-[95vw] sm:max-w-3xl">
-        <DialogHeader>
+      <DialogContent className="sm:max-w-3xl">
+        <DialogHeader className="max-sm:shrink-0">
           <DialogTitle>Edit Post</DialogTitle>
         </DialogHeader>
-        <form onSubmit={handleSubmit} className="space-y-3">
-          <div className="max-h-[65vh] overflow-auto pr-2">
+        <form onSubmit={handleSubmit} className="space-y-3 max-sm:flex max-sm:flex-col max-sm:flex-1 max-sm:min-h-0 max-sm:overflow-hidden">
+          <div className="max-h-[65vh] overflow-auto pr-2 max-sm:max-h-none max-sm:flex-1 max-sm:min-h-0">
           <div>
             <label className="text-sm font-medium">Title</label>
             <Input value={form.title} onChange={e => update('title', e.target.value)} required />
@@ -103,9 +103,9 @@ export default function AdminBlogEditor({ post, onUpdated, children }) {
 
           </div>
 
-          <DialogFooter className="border-t pt-3">
+          <DialogFooter className="border-t pt-3 max-sm:shrink-0">
             <Button type="submit" disabled={loading}>{loading ? 'Updating…' : 'Update Post'}</Button>
-            <Button variant="ghost" onClick={() => setOpen(false)}>Cancel</Button>
+            <Button type="button" variant="ghost" onClick={() => setOpen(false)}>Cancel</Button>
           </DialogFooter>
         </form>
       </DialogContent>
