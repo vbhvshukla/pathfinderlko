@@ -56,7 +56,7 @@ export default function Contact() {
         title="Contact Us"
         description="Get in touch with Pathfinder, a trusted NGO in Lucknow for psychological counselling and career guidance. Visit our Lucknow centre or reach out online."
         keywords="contact Pathfinder Lucknow, NGO in Lucknow, psychologist in Lucknow, counselling in Lucknow"
-        canonicalUrl="https://pathfinderlko.org/contact"
+        canonicalUrl="https://pathfinderlko.in/contact"
       />
       <div className="max-w-md mx-auto">
         <Card className="w-full">

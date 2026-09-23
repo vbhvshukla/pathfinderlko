@@ -70,7 +70,7 @@ export default function Home() {
         title="Best NGO & Psychologist in Lucknow"
         description="Pathfinder is a Lucknow-based NGO offering psychological counselling, career guidance and mental wellness workshops for students and families. Led by Dr. Sandhya Dwivedi. Book a session today."
         keywords="psychologist in Lucknow, NGO in Lucknow, best NGO in Lucknow, counselling in Lucknow, career counselling Lucknow, mental health NGO Lucknow, Dr. Sandhya Dwivedi, Pathfinder"
-        canonicalUrl="https://pathfinderlko.org/"
+        canonicalUrl="https://pathfinderlko.in/"
         structuredData={{
           '@context': 'https://schema.org',
           '@type': 'FAQPage',

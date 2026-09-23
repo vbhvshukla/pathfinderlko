@@ -51,7 +51,7 @@ export default function Services() {
               title="Counselling Services in Lucknow"
               description="Personal counselling, de-addiction support, career counselling, personality development and psychological testing in Lucknow. Book a session with Pathfinder's certified counsellors."
               keywords="counselling in Lucknow, psychologist in Lucknow, career counselling Lucknow, de-addiction counselling Lucknow, personality development Lucknow, NGO in Lucknow"
-              canonicalUrl="https://pathfinderlko.org/services"
+              canonicalUrl="https://pathfinderlko.in/services"
             />
             <div className="md:flex md:items-start md:gap-8">
                 <div className="md:flex-1">

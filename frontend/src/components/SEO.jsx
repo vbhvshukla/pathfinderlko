@@ -2,8 +2,9 @@ import React, { useEffect } from 'react'
 
 export default function SEO({ title, description, keywords, ogImage, canonicalUrl, structuredData }) {
   useEffect(() => {
-    // 1. Set title
-    const fullTitle = title ? `${title} | Pathfinder NGO Lucknow` : 'Pathfinder NGO | Mental Health & Career Counseling Lucknow'
+    // 1. Set title — brand name leads so it's the first thing shown in the tab/SERP,
+    // matching how it's searched directly ("Pathfinder", "Pathfinder Lucknow").
+    const fullTitle = title ? `Pathfinder | ${title}` : 'Pathfinder NGO | Mental Health & Career Counseling Lucknow'
     document.title = fullTitle
 
     // 2. Set description
@@ -26,7 +27,8 @@ export default function SEO({ title, description, keywords, ogImage, canonicalUr
 
     // 4. Set Open Graph (OG) Meta tags
     const ogData = {
-      'og:title': title || 'Pathfinder NGO Lucknow',
+      'og:title': fullTitle,
+      'og:site_name': 'Pathfinder',
       'og:description': description || 'Professional counseling and career guidance workshops for students.',
       'og:type': 'website',
       'og:image': ogImage || '/og-image.jpg',

@@ -146,7 +146,7 @@ export default function About() {
         title="About Us — Dr. Sandhya Dwivedi & Our Team"
         description="Meet the team behind Pathfinder, a Lucknow NGO for psychological counselling and career guidance. Led by Dr. Sandhya Dwivedi, counselling psychologist with 20+ years of experience in Lucknow."
         keywords="Dr. Sandhya Dwivedi, psychologist in Lucknow, counselling psychologist Lucknow, NGO in Lucknow, Pathfinder team, best NGO in Lucknow"
-        canonicalUrl="https://pathfinderlko.org/about"
+        canonicalUrl="https://pathfinderlko.in/about"
         structuredData={{
           '@context': 'https://schema.org',
           '@type': 'Person',
