@@ -28,7 +28,7 @@ export default function BlogPost() {
         if (!mounted) return
         const p = res.post || res
         setPost(p)
-        
+
         // Fetch related posts
         try {
           const category = p.categories?.[0] || ''
@@ -110,8 +110,8 @@ export default function BlogPost() {
 
   // Fallback author information
   const authorInfo = {
-    name: post.author || 'Dr. P.K. Dwivedi',
-    role: post.author ? 'Contributor' : 'Founder & Chief Counselor',
+    name: post.author || 'Dr. Sandhya Dwivedi',
+    role: post.author ? 'Contributor' : 'Psychologist',
     bio: 'Experienced psychological counselor and career mentor specializing in cognitive behavioral approaches, academic anxiety relief, and youth empowerment in Lucknow.',
   }
 
@@ -181,8 +181,8 @@ export default function BlogPost() {
           {Array.isArray(post.content)
             ? post.content.map((p, i) => <p key={i} className="text-base sm:text-lg">{p}</p>)
             : (post.content || '').includes('<')
-            ? <div dangerouslySetInnerHTML={{ __html: post.content }} className="space-y-4 text-base sm:text-lg" />
-            : (post.content || '').split('\n\n').map((p, i) => <p key={i} className="text-base sm:text-lg">{p}</p>)}
+              ? <div dangerouslySetInnerHTML={{ __html: post.content }} className="space-y-4 text-base sm:text-lg" />
+              : (post.content || '').split('\n\n').map((p, i) => <p key={i} className="text-base sm:text-lg">{p}</p>)}
         </article>
 
         {/* Tags */}
