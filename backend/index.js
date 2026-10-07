@@ -92,6 +92,7 @@ try { app.use('/api/services', require('./src/routes/service.routes')); } catch 
 try { app.use('/api/rsvp', require('./src/routes/rsvp.routes')); } catch (e) { }
 try { app.use('/api/events', require('./src/routes/event.routes')); } catch (e) { }
 try { app.use('/api/users', require('./src/routes/user.routes')); } catch (e) { }
+try { app.use('/api/social-preview', require('./src/routes/social-preview.routes')); } catch (e) { }
 
 // Fallback
 app.use((req, res) => res.status(404).json({ error: 'Not found' }));
