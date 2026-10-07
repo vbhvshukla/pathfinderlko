@@ -1,7 +1,18 @@
 import React, { useEffect } from 'react'
 
-export default function SEO({ title, description, keywords, ogImage, canonicalUrl, structuredData }) {
+export default function SEO({ title, description, keywords, ogImage, canonicalUrl, structuredData, noIndex }) {
   useEffect(() => {
+    // 0. Robots directive — pages that render as "not found" / thin/loading states
+    // still return HTTP 200 (this is a client-routed SPA with a catch-all rewrite),
+    // which Google flags as a "soft 404" unless explicitly told not to index it.
+    let metaRobots = document.querySelector('meta[name="robots"]')
+    if (!metaRobots) {
+      metaRobots = document.createElement('meta')
+      metaRobots.setAttribute('name', 'robots')
+      document.head.appendChild(metaRobots)
+    }
+    metaRobots.setAttribute('content', noIndex ? 'noindex, nofollow' : 'index, follow')
+
     // 1. Set title — brand name leads so it's the first thing shown in the tab/SERP,
     // matching how it's searched directly ("Pathfinder", "Pathfinder Lucknow").
     const fullTitle = title ? `Pathfinder | ${title}` : 'Pathfinder NGO | Mental Health & Career Counseling Lucknow'
@@ -71,7 +82,7 @@ export default function SEO({ title, description, keywords, ogImage, canonicalUr
       ldScript.remove()
     }
 
-  }, [title, description, keywords, ogImage, canonicalUrl, structuredData])
+  }, [title, description, keywords, ogImage, canonicalUrl, structuredData, noIndex])
 
   return null
 }

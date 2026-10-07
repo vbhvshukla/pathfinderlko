@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Badge } from '@/components/ui/badge'
 import { Search, BookOpen, ArrowLeft, ArrowRight } from 'lucide-react'
+import SEO from '@/components/SEO'
 
 const CATEGORIES = [
   { id: '', label: 'All Categories' },
@@ -89,6 +90,11 @@ export default function Blog() {
 
   return (
     <main className="max-w-7xl mx-auto px-4 py-12 space-y-8 animate-in fade-in duration-300">
+      <SEO
+        title="Blog & Insights"
+        description="Articles on mental health, career guidance, and student wellness from Pathfinder, a trusted NGO in Lucknow led by Dr. Sandhya Dwivedi."
+        keywords="Pathfinder blog, mental health Lucknow, career guidance Lucknow, counselling in Lucknow"
+      />
       <div className="text-center max-w-2xl mx-auto space-y-3">
         <h1 className="text-4xl font-extrabold tracking-tight sm:text-5xl text-foreground">
           Pathfinder Insights & Blog

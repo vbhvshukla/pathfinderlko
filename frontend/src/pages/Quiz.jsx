@@ -4,6 +4,7 @@ import { ClipboardList, ArrowLeft, ArrowRight, RotateCcw, AlertTriangle, CheckCi
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Progress } from '@/components/ui/progress'
+import SEO from '@/components/SEO'
 
 const QUESTIONS = [
   {
@@ -127,6 +128,11 @@ export default function Quiz() {
 
   return (
     <main className="max-w-3xl mx-auto px-4 py-12 animate-in fade-in duration-300">
+      <SEO
+        title="Mental Wellness Self-Assessment Quiz"
+        description="Take Pathfinder's free self-assessment quiz to check in on your stress and mental wellness, and get guidance from our Lucknow-based counsellors."
+        keywords="mental health quiz, stress assessment, Pathfinder quiz, counselling Lucknow"
+      />
       {!showResults ? (
         <Card className="shadow-lg border-primary/10">
           <CardHeader className="space-y-4 border-b bg-muted/20 pb-6">

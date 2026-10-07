@@ -8,6 +8,7 @@ import { Label } from '@/components/ui/label'
 import { Button } from '@/components/ui/button'
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
+import SEO from '@/components/SEO'
 import Loader from '@/components/ui/loader'
 
 const DEFAULT_SERVICES = [
@@ -144,6 +145,11 @@ export default function Appointment() {
 
   return (
     <main className="max-w-3xl mx-auto px-4 py-12 animate-in fade-in duration-300">
+      <SEO
+        title="Book a Counselling Session in Lucknow"
+        description="Book an appointment with Pathfinder's certified counsellors in Lucknow. Choose your service, preferred date, and time slot online."
+        keywords="book counselling Lucknow, book appointment psychologist Lucknow, counselling services in Lucknow"
+      />
       <Card className="shadow-lg border-primary/10">
         <CardHeader className="text-center pb-4 border-b bg-muted/20">
           <CardTitle className="text-2xl font-bold">Book a Counseling Session</CardTitle>

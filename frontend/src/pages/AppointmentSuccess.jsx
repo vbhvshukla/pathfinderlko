@@ -3,6 +3,7 @@ import { Link, useLocation, Navigate } from 'react-router-dom'
 import { CheckCircle2, Download, Calendar, ArrowRight, Home } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from '@/components/ui/card'
+import SEO from '@/components/SEO'
 
 export default function AppointmentSuccess() {
   const location = useLocation()
@@ -17,6 +18,7 @@ export default function AppointmentSuccess() {
 
   return (
     <div className="max-w-xl mx-auto px-4 py-16 animate-in fade-in slide-in-from-bottom-4 duration-300">
+      <SEO title="Appointment Confirmed" noIndex />
       <div className="text-center mb-8">
         <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-emerald-100 dark:bg-emerald-950 text-emerald-600 dark:text-emerald-400 mb-4">
           <CheckCircle2 className="w-10 h-10 animate-bounce" />

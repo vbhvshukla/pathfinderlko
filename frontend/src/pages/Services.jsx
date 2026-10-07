@@ -2,10 +2,10 @@ import React, { useEffect, useState } from "react";
 import SEO from '@/components/SEO'
 import { Separator } from "@/components/ui/separator";
 import {
-  Accordion,
-  AccordionItem,
-  AccordionTrigger,
-  AccordionContent,
+    Accordion,
+    AccordionItem,
+    AccordionTrigger,
+    AccordionContent,
 } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
 import {
@@ -45,13 +45,13 @@ export default function Services() {
         load()
         return () => { mounted = false }
     }, [])
-  return (
-    <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 text-left">
+    return (
+        <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 text-left">
             <SEO
-              title="Counselling Services in Lucknow"
-              description="Personal counselling, de-addiction support, career counselling, personality development and psychological testing in Lucknow. Book a session with Pathfinder's certified counsellors."
-              keywords="counselling in Lucknow, psychologist in Lucknow, career counselling Lucknow, de-addiction counselling Lucknow, personality development Lucknow, NGO in Lucknow"
-              canonicalUrl="https://pathfinderlko.in/services"
+                title="Best Counselling Services in Lucknow"
+                description="Personal counselling, de-addiction support, career counselling, personality development and psychological testing in Lucknow. Book a session with Pathfinder's certified counsellors."
+                keywords="counselling in Lucknow, psychologist in Lucknow, career counselling Lucknow, de-addiction counselling Lucknow, personality development Lucknow, NGO in Lucknow"
+                canonicalUrl="https://www.pathfinderlko.in/services"
             />
             <div className="md:flex md:items-start md:gap-8">
                 <div className="md:flex-1">
@@ -179,26 +179,26 @@ export default function Services() {
                 </div>
 
                 <div className="md:w-72 md:ml-8">
-                    <Carousel orientation="vertical" plugins={[Autoplay({loop:true})]}>
-                                <CarouselContent className="items-stretch h-screen">
-                                    {loadingServices ? (
-                                        <div className="p-2 space-y-4 w-full">
-                                            <Skeleton className="w-full h-36 rounded-md" />
-                                            <Skeleton className="w-full h-36 rounded-md" />
+                    <Carousel orientation="vertical" plugins={[Autoplay({ loop: true })]}>
+                        <CarouselContent className="items-stretch h-screen">
+                            {loadingServices ? (
+                                <div className="p-2 space-y-4 w-full">
+                                    <Skeleton className="w-full h-36 rounded-md" />
+                                    <Skeleton className="w-full h-36 rounded-md" />
+                                </div>
+                            ) : (
+                                (serviceImages.length ? serviceImages : [sandhya, drpkd, urvassi, vaibhav, gargi]).map((img, i) => (
+                                    <CarouselItem key={i} className="basis-auto">
+                                        <div className="p-2">
+                                            <img src={img} alt={`team-${i}`} className="w-full h-36 object-cover rounded-md shadow" />
                                         </div>
-                                    ) : (
-                                        (serviceImages.length ? serviceImages : [sandhya, drpkd, urvassi, vaibhav, gargi]).map((img, i) => (
-                                            <CarouselItem key={i} className="basis-auto">
-                                                <div className="p-2">
-                                                    <img src={img} alt={`team-${i}`} className="w-full h-36 object-cover rounded-md shadow" />
-                                                </div>
-                                            </CarouselItem>
-                                        ))
-                                    )}
-                                </CarouselContent>
+                                    </CarouselItem>
+                                ))
+                            )}
+                        </CarouselContent>
                     </Carousel>
                 </div>
             </div>
-    </main>
-  );
+        </main>
+    );
 }

@@ -89,6 +89,7 @@ export default function BlogPost() {
   if (notFound || !post) {
     return (
       <main className="max-w-4xl mx-auto px-4 py-16 text-center space-y-4">
+        <SEO title="Post Not Found" noIndex />
         <h2 className="text-2xl font-bold text-foreground">Post Not Found</h2>
         <p className="text-muted-foreground">We couldn't find the article you are looking for.</p>
         <Button asChild>

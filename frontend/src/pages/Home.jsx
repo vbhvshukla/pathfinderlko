@@ -67,10 +67,10 @@ export default function Home() {
   return (
     <div className="bg-background text-foreground">
       <SEO
-        title="Best NGO & Psychologist in Lucknow"
+        title="Best NGO, Counsellor and Psychologist in Lucknow | Pathfinder | Dr Sandhya Dwivedi"
         description="Pathfinder is a Lucknow-based NGO offering psychological counselling, career guidance and mental wellness workshops for students and families. Led by Dr. Sandhya Dwivedi. Book a session today."
         keywords="psychologist in Lucknow, NGO in Lucknow, best NGO in Lucknow, counselling in Lucknow, career counselling Lucknow, mental health NGO Lucknow, Dr. Sandhya Dwivedi, Pathfinder"
-        canonicalUrl="https://pathfinderlko.in/"
+        canonicalUrl="https://www.pathfinderlko.in/"
         structuredData={{
           '@context': 'https://schema.org',
           '@type': 'FAQPage',
@@ -91,7 +91,7 @@ export default function Home() {
       <Hero />
 
       <ServicesPreview />
-      
+
       <Stats />
 
       {galleryLoading ? (

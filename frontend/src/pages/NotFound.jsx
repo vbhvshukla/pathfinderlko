@@ -2,10 +2,12 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { Home, Calendar, ArrowLeft } from 'lucide-react'
 import { Button } from '@/components/ui/button'
+import SEO from '@/components/SEO'
 
 export default function NotFound() {
   return (
     <div className="relative min-h-[80vh] flex items-center justify-center bg-background px-4 py-16 overflow-hidden">
+      <SEO title="Page Not Found" noIndex />
       {/* Decorative gradient blur background */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-primary/5 rounded-full filter blur-3xl pointer-events-none"></div>
 

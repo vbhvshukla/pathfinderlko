@@ -11,6 +11,7 @@ import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
 import Loader from '@/components/ui/loader'
 import { toast } from 'sonner'
+import SEO from '@/components/SEO'
 import { 
   Calendar, MapPin, Clock, Users, ArrowLeft, Check, X, Phone, FileText, 
   ChevronLeft, ChevronRight, Download, Maximize2 
@@ -126,10 +127,16 @@ export default function EventDetails() {
     )
   }
 
-  if (!event) return null
+  if (!event) return <SEO title="Event Not Found" noIndex />
 
   return (
     <main className="min-h-screen bg-background text-foreground pb-20 text-left relative">
+      <SEO
+        title={event.title}
+        description={event.description ? String(event.description).slice(0, 160) : `${event.title} — an event hosted by Pathfinder NGO in Lucknow.`}
+        keywords={`${event.title}, Pathfinder events, events in Lucknow`}
+        ogImage={event.coverImage}
+      />
       {/* Back Button */}
       <div className="max-w-6xl mx-auto px-4 pt-6">
         <Button 

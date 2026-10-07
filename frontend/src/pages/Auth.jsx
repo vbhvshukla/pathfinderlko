@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button'
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '@/components/ui/card'
 import { useDispatch } from 'react-redux'
 import { login, register } from '@/store/authSlice'
+import SEO from '@/components/SEO'
 
 export default function Auth() {
   const [mode, setMode] = useState('login') // 'login' or 'register'
@@ -72,6 +73,7 @@ export default function Auth() {
 
   return (
     <main className="max-w-md mx-auto px-4 py-12">
+      <SEO title="Sign In" noIndex />
       <Card>
         <CardHeader>
           <CardTitle>{mode === 'login' ? 'Sign in' : 'Create account'}</CardTitle>

@@ -12,6 +12,7 @@ import Loader from '@/components/ui/loader'
 import { selectCurrentUser } from '@/store/authSlice'
 import { apiFetch } from '@/lib/api'
 import { toast } from 'sonner'
+import SEO from '@/components/SEO'
 
 export default function Events() {
   const user = useSelector(selectCurrentUser)
@@ -118,6 +119,11 @@ export default function Events() {
 
   return (
     <main className="max-w-6xl mx-auto px-4 py-12 space-y-8 animate-in fade-in duration-300">
+      <SEO
+        title="Events & Workshops in Lucknow"
+        description="Upcoming seminars, community outreach events, and career mentorship workshops hosted by Pathfinder, an NGO in Lucknow."
+        keywords="events in Lucknow, workshops Lucknow, NGO events Lucknow, Pathfinder events"
+      />
       <div className="text-center max-w-2xl mx-auto space-y-3">
         <h1 className="text-4xl font-extrabold tracking-tight sm:text-5xl text-foreground">
           Events & Workshops

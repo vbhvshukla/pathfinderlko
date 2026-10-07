@@ -7,6 +7,7 @@ import { Badge } from '@/components/ui/badge'
 import client from '@/lib/api'
 import Loader from '@/components/ui/loader'
 import { Skeleton } from '@/components/ui/skeleton'
+import SEO from '@/components/SEO'
 
 export default function Gallery() {
   const [activeTab, setActiveTab] = useState('events') // 'events' or 'newspaper'
@@ -50,6 +51,11 @@ export default function Gallery() {
 
   return (
     <main className="max-w-6xl mx-auto px-4 py-12 space-y-8 animate-in fade-in duration-300">
+      <SEO
+        title="Gallery"
+        description="Photos from Pathfinder's events, workshops, and community outreach programs in Lucknow."
+        keywords="Pathfinder gallery, NGO events Lucknow, Pathfinder photos"
+      />
       {/* Page Header */}
       <div className="text-center max-w-2xl mx-auto space-y-3">
         <h1 className="text-4xl font-extrabold tracking-tight sm:text-5xl text-foreground flex items-center justify-center gap-3">

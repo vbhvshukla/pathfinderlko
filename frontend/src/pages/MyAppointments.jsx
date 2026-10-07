@@ -7,6 +7,7 @@ import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/com
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 import { Badge } from '@/components/ui/badge'
 import Loader from '@/components/ui/loader'
+import SEO from '@/components/SEO'
 
 export default function MyAppointments() {
   const [appointments, setAppointments] = useState([])
@@ -54,6 +55,7 @@ export default function MyAppointments() {
 
   return (
     <main className="max-w-6xl mx-auto px-4 py-12">
+      <SEO title="My Appointments" noIndex />
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8">
         <div>
           <h1 className="text-3xl font-extrabold tracking-tight text-foreground">My Appointments</h1>
