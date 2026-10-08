@@ -103,7 +103,12 @@ export default function Auth() {
             </div>
 
             <div className="grid gap-2">
-              <Label htmlFor="password">Password</Label>
+              <div className="flex items-center justify-between">
+                <Label htmlFor="password">Password</Label>
+                {mode === 'login' && (
+                  <Link to="/forgot-password" className="text-xs text-primary underline">Forgot password?</Link>
+                )}
+              </div>
               <Input id="password" name="password" value={form.password} onChange={handleChange} type="password" />
             </div>
 

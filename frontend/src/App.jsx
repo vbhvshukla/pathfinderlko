@@ -20,6 +20,8 @@ const Contact = lazy(() => import('./pages/Contact'))
 const Blog = lazy(() => import('./pages/Blog'))
 const BlogPost = lazy(() => import('./pages/BlogPost'))
 const Auth = lazy(() => import('./pages/Auth'))
+const ForgotPassword = lazy(() => import('./pages/ForgotPassword'))
+const ResetPassword = lazy(() => import('./pages/ResetPassword'))
 const Appointment = lazy(() => import('./pages/Appointment'))
 const AppointmentSuccess = lazy(() => import('./pages/AppointmentSuccess'))
 const MyAppointments = lazy(() => import('./pages/MyAppointments'))
@@ -83,6 +85,8 @@ function App() {
                 <Route path="/gallery" element={<Gallery />} />
                 <Route path="/quiz" element={<Quiz />} />
                 <Route path="/auth" element={<Auth />} />
+                <Route path="/forgot-password" element={<ForgotPassword />} />
+                <Route path="/reset-password" element={<ResetPassword />} />
                 <Route path="/appointments" element={<Appointment />} />
                 <Route path="/appointments/success" element={<AppointmentSuccess />} />
                 <Route path="/my-appointments" element={

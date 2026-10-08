@@ -1,6 +1,8 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const crypto = require('crypto');
 const User = require('../models/user.model');
+const { createTransporter } = require('../config/mail.config');
 
 async function register(req, res) {
 	try {
@@ -77,4 +79,65 @@ async function logout(req, res) {
 	}
 }
 
-module.exports = { register, login, me, logout };
+async function forgotPassword(req, res) {
+	try {
+		const { email } = req.body;
+		if (!email) return res.status(400).json({ message: 'Email is required' });
+
+		const user = await User.findOne({ email: String(email).toLowerCase().trim() });
+		// Always respond with the same generic message whether or not the account
+		// exists, so this endpoint can't be used to enumerate registered emails.
+		const genericResponse = { message: 'If an account exists for that email, a reset link has been sent.' };
+
+		if (!user) return res.json(genericResponse);
+
+		const token = crypto.randomBytes(32).toString('hex');
+		user.resetToken = token;
+		user.resetTokenExpiry = new Date(Date.now() + 60 * 60 * 1000); // 1 hour
+		await user.save();
+
+		const siteUrl = (process.env.FRONTEND_URL || '').replace(/\/$/, '');
+		const resetUrl = `${siteUrl}/reset-password?token=${token}`;
+
+		try {
+			const transporter = createTransporter();
+			await transporter.sendMail({
+				from: process.env.SMTP_FROM || 'no-reply@example.com',
+				to: user.email,
+				subject: 'Reset your Pathfinder password',
+				text: `Hi ${user.name},\n\nWe received a request to reset your password. This link expires in 1 hour:\n\n${resetUrl}\n\nIf you didn't request this, you can safely ignore this email.`,
+				html: `<p>Hi ${user.name},</p><p>We received a request to reset your password. This link expires in 1 hour:</p><p><a href="${resetUrl}">${resetUrl}</a></p><p>If you didn't request this, you can safely ignore this email.</p>`,
+			});
+		} catch (e) {
+			console.warn('Failed to send password reset email', e.message || e);
+		}
+
+		return res.json(genericResponse);
+	} catch (err) {
+		console.error(err);
+		return res.status(500).json({ message: 'Server error' });
+	}
+}
+
+async function resetPassword(req, res) {
+	try {
+		const { token, password } = req.body;
+		if (!token || !password) return res.status(400).json({ message: 'Missing fields' });
+		if (password.length < 6) return res.status(400).json({ message: 'Password must be at least 6 characters' });
+
+		const user = await User.findOne({ resetToken: token, resetTokenExpiry: { $gt: new Date() } });
+		if (!user) return res.status(400).json({ message: 'This reset link is invalid or has expired.' });
+
+		user.password = await bcrypt.hash(password, 10);
+		user.resetToken = null;
+		user.resetTokenExpiry = null;
+		await user.save();
+
+		return res.json({ message: 'Password updated successfully. You can now sign in.' });
+	} catch (err) {
+		console.error(err);
+		return res.status(500).json({ message: 'Server error' });
+	}
+}
+
+module.exports = { register, login, me, logout, forgotPassword, resetPassword };
