@@ -93,6 +93,9 @@ try { app.use('/api/rsvp', require('./src/routes/rsvp.routes')); } catch (e) { }
 try { app.use('/api/events', require('./src/routes/event.routes')); } catch (e) { }
 try { app.use('/api/users', require('./src/routes/user.routes')); } catch (e) { }
 try { app.use('/api/social-preview', require('./src/routes/social-preview.routes')); } catch (e) { }
+// Mounted at the root (not /api) since sitemaps conventionally live at the domain
+// root — nginx routes GET /sitemap.xml here instead of serving a static file.
+try { app.use('/sitemap.xml', require('./src/routes/sitemap.routes')); } catch (e) { }
 
 // Fallback
 app.use((req, res) => res.status(404).json({ error: 'Not found' }));
